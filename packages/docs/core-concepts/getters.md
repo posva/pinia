@@ -79,6 +79,36 @@ export const useStore = defineStore('main', {
 })
 ```
 
+
+## Accessing Method-Style getters
+
+Use if you need pass arguments:
+
+```js
+export const useStore = defineStore('main', {
+  getters: {
+    getUserById() {
+      return (userId) => this.users.find((user) => user.id === userId)
+    },
+  },
+})
+```
+
+and use in component:
+
+```vue
+<script>
+export default {
+  setup() {
+    const store = useStore()
+    const getUserById = (id) => store.getUserById(id)
+
+    return { getUserById }
+  },
+}
+</script>
+```
+
 ## Accessing other stores getters
 
 To use another store getters, you can directly _use it_ inside of the _action_:
