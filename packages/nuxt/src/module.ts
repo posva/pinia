@@ -62,14 +62,11 @@ const module: NuxtModule<ModuleOptions> = defineNuxtModule<ModuleOptions>({
     // Transpile runtime
     nuxt.options.build.transpile.push(resolve(runtimeDir))
 
-    // dedupe pinia only if not building for SSR
-    // https://github.com/vitejs/vite-plugin-vue/blob/main/packages/plugin-vue/src/index.ts#L221
-    if (!nuxt.options.vite?.build?.ssr) {
-      nuxt.options.vite.resolve ??= {}
-      nuxt.options.vite.resolve.dedupe ??= []
-      if (!nuxt.options.vite.resolve.dedupe.includes('pinia')) {
-        nuxt.options.vite.resolve.dedupe.push('pinia')
-      }
+    // avoids having multiple copies of pinia
+    nuxt.options.vite.optimizeDeps ??= {}
+    nuxt.options.vite.optimizeDeps.exclude ??= []
+    if (!nuxt.options.vite.optimizeDeps.exclude.includes('pinia')) {
+      nuxt.options.vite.optimizeDeps.exclude.push('pinia')
     }
 
     nuxt.hook('prepare:types', ({ references }) => {
