@@ -111,12 +111,6 @@ A few notes about the project and possible questions:
 npm install pinia
 ```
 
-If you are using Vue <2.7, make sure to install latest `@vue/composition-api`:
-
-```bash
-npm install pinia @vue/composition-api
-```
-
 ## Usage
 
 ### Install the plugin

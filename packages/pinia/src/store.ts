@@ -127,8 +127,10 @@ const skipHydrateMap = /*#__PURE__*/ new WeakMap<any, any>()
  * @returns obj
  */
 export function skipHydrate<T = any>(obj: T): T {
+  // TODO: check if can be simplified for Vue 2.7
   return isVue2
-    ? // in @vue/composition-api, the refs are sealed so defineProperty doesn't work...
+    ? // in @vue/composition-api (no needed in Vue 2.7),
+      // the refs are sealed so defineProperty doesn't work...
       /* istanbul ignore next */ skipHydrateMap.set(obj, 1) && obj
     : Object.defineProperty(obj, skipHydrateSymbol, {})
 }
