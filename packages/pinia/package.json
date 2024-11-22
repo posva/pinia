@@ -77,15 +77,11 @@
     "vue-demi": "^0.14.10"
   },
   "peerDependencies": {
-    "@vue/composition-api": "^1.4.0",
     "typescript": ">=4.4.4",
-    "vue": "^2.6.14 || ^3.5.11"
+    "vue": "^2.7.0 || ^3.5.11"
   },
   "peerDependenciesMeta": {
     "typescript": {
-      "optional": true
-    },
-    "@vue/composition-api": {
       "optional": true
     }
   },
