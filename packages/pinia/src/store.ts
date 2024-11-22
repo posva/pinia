@@ -117,7 +117,6 @@ function mergeReactiveObjects<
 const skipHydrateSymbol = __DEV__
   ? Symbol('pinia:skipHydration')
   : /* istanbul ignore next */ Symbol()
-const skipHydrateMap = /*#__PURE__*/ new WeakMap<any, any>()
 
 /**
  * Tells Pinia to skip the hydration process of a given object. This is useful in setup stores (only) when you return a
@@ -127,12 +126,7 @@ const skipHydrateMap = /*#__PURE__*/ new WeakMap<any, any>()
  * @returns obj
  */
 export function skipHydrate<T = any>(obj: T): T {
-  // TODO: check if can be simplified for Vue 2.7
-  return isVue2
-    ? // in @vue/composition-api (no needed in Vue 2.7),
-      // the refs are sealed so defineProperty doesn't work...
-      /* istanbul ignore next */ skipHydrateMap.set(obj, 1) && obj
-    : Object.defineProperty(obj, skipHydrateSymbol, {})
+  return Object.defineProperty(obj, skipHydrateSymbol, {})
 }
 
 /**
@@ -142,9 +136,7 @@ export function skipHydrate<T = any>(obj: T): T {
  * @returns true if `obj` should be hydrated
  */
 export function shouldHydrate(obj: any) {
-  return isVue2
-    ? /* istanbul ignore next */ !skipHydrateMap.has(obj)
-    : !isPlainObject(obj) || !obj.hasOwnProperty(skipHydrateSymbol)
+  return !isPlainObject(obj) || !obj.hasOwnProperty(skipHydrateSymbol)
 }
 
 const { assign } = Object
