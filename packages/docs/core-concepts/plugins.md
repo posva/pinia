@@ -209,7 +209,7 @@ pinia.use(({ store }) => {
 
 ## Calling `$subscribe` inside plugins
 
-You can use [store.$subscribe](./state.md#subscribing-to-the-state) and [store.$onAction](./actions.md#subscribing-to-actions) inside plugins too:
+You can use [store.$subscribe](./state.md#Subscribing-to-the-state) and [store.$onAction](./actions.md#Subscribing-to-actions) inside plugins too:
 
 ```ts
 pinia.use(({ store }) => {
