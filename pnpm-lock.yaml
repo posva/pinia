@@ -138,9 +138,6 @@ importers:
       '@nuxt/kit':
         specifier: ^3.9.0
         version: 3.14.1592(magicast@0.3.5)(rollup@4.27.3)
-      pinia:
-        specifier: workspace:^
-        version: link:../pinia
     devDependencies:
       '@nuxt/module-builder':
         specifier: ^0.8.4
@@ -154,6 +151,9 @@ importers:
       nuxt:
         specifier: ^3.14.1592
         version: 3.14.1592(@parcel/watcher@2.5.0)(@types/node@22.9.1)(encoding@0.1.13)(ioredis@5.4.1)(magicast@0.3.5)(rollup@4.27.3)(terser@5.36.0)(typescript@5.6.3)(vite@5.4.11(@types/node@22.9.1)(terser@5.36.0))(vue-tsc@2.1.10(typescript@5.6.3))
+      pinia:
+        specifier: workspace:^
+        version: link:../pinia
       typescript:
         specifier: ^5.6.3
         version: 5.6.3
