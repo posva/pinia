@@ -1,14 +1,18 @@
+## [0.1.7](https://github.com/vuejs/pinia/compare/@pinia/testing@0.1.6...@pinia/testing@0.1.7) (2024-11-03)
+
+No code changes in this release.
+
 ## [0.1.6](https://github.com/vuejs/pinia/compare/@pinia/testing@0.1.5...@pinia/testing@0.1.6) (2024-09-30)
 
-No changes in this release.
+No code changes in this release.
 
 ## [0.1.5](https://github.com/vuejs/pinia/compare/@pinia/testing@0.1.4...@pinia/testing@0.1.5) (2024-08-06)
 
-This release contain no code changes.
+No code changes in this release.
 
 ## [0.1.4](https://github.com/vuejs/pinia/compare/@pinia/testing@0.1.4-beta.0...@pinia/testing@0.1.4) (2024-07-26)
 
-No changes in this release
+No code changes in this release.
 
 ## [0.1.4-beta.0](https://github.com/vuejs/pinia/compare/@pinia/testing@0.1.3...@pinia/testing@0.1.4-beta.0) (2024-04-17)
 
@@ -24,7 +28,7 @@ No changes in this release
 
 ## [0.1.3](https://github.com/vuejs/pinia/compare/@pinia/testing@0.1.2...@pinia/testing@0.1.3) (2023-07-26)
 
-This version contains no code changes.
+No code changes in this release.
 
 ## [0.1.2](https://github.com/vuejs/pinia/compare/@pinia/testing@0.1.1...@pinia/testing@0.1.2) (2023-05-18)
 
@@ -32,7 +36,7 @@ This version contains no code changes.
 
 ## [0.1.1](https://github.com/vuejs/pinia/compare/@pinia/testing@0.1.0...@pinia/testing@0.1.1) (2023-05-17)
 
-This release contains no code changes.
+No code changes in this release.
 
 # [0.1.0](https://github.com/vuejs/pinia/compare/@pinia/testing@0.0.16...@pinia/testing@0.1.0) (2023-05-08)
 

@@ -10,6 +10,10 @@ export default defineNuxtConfig({
 
   modules: [piniaModule],
 
+  telemetry: {
+    enabled: false,
+  },
+
   pinia: {
     storesDirs: ['./stores/**', './domain/*/stores'],
   },

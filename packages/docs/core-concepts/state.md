@@ -252,6 +252,19 @@ cartStore.$subscribe((mutation, state) => {
 })
 ```
 
+### Flush timing
+
+Under the hood, `$subscribe()` uses Vue's `watch()` function. You can pass the same options as you would with `watch()`. This is useful when you want to immediately trigger subscriptions after **each** state change:
+
+```ts{4}
+cartStore.$subscribe((state) => {
+  // persist the whole state to the local storage whenever it changes
+  localStorage.setItem('cart', JSON.stringify(state))
+}, { flush: 'sync' })
+```
+
+### Detaching subscriptions
+
 By default, _state subscriptions_ are bound to the component where they are added (if the store is inside a component's `setup()`). Meaning, they will be automatically removed when the component is unmounted. If you also want to keep them after the component is unmounted, pass `{ detached: true }` as the second argument to _detach_ the _state subscription_ from the current component:
 
 ```vue

@@ -35,7 +35,7 @@ augment stores with the plugin API.
 
 ### actions?
 
-> `optional` **actions**: `A` & `ThisType`\<`A` & `UnwrapRef`\<`S`\> & [`_StoreWithState`](StoreWithState.md)\<`Id`, `S`, `G`, `A`\> & [`_StoreWithGetters`](../type-aliases/StoreWithGetters.md)\<`G`\> & [`PiniaCustomProperties`](PiniaCustomProperties.md)\<`string`, [`StateTree`](../type-aliases/StateTree.md), [`_GettersTree`](../type-aliases/GettersTree.md)\<[`StateTree`](../type-aliases/StateTree.md)\>, [`_ActionsTree`](../type-aliases/ActionsTree.md)\>\>
+> `optional` **actions**: `A` & `ThisType`\<`A` & `UnwrapRef`\<`S`\> & [`_StoreWithState`](StoreWithState.md)\<`Id`, `S`, `G`, `A`\> & `_StoreWithGetters_Readonly`\<`G`\> & `_StoreWithGetters_Writable`\<`G`\> & [`PiniaCustomProperties`](PiniaCustomProperties.md)\<`string`, [`StateTree`](../type-aliases/StateTree.md), [`_GettersTree`](../type-aliases/GettersTree.md)\<[`StateTree`](../type-aliases/StateTree.md)\>, [`_ActionsTree`](../type-aliases/ActionsTree.md)\>\>
 
 Optional object of actions.
 
@@ -43,7 +43,7 @@ Optional object of actions.
 
 ### getters?
 
-> `optional` **getters**: `G` & `ThisType`\<`UnwrapRef`\<`S`\> & [`_StoreWithGetters`](../type-aliases/StoreWithGetters.md)\<`G`\> & [`PiniaCustomProperties`](PiniaCustomProperties.md)\<`string`, [`StateTree`](../type-aliases/StateTree.md), [`_GettersTree`](../type-aliases/GettersTree.md)\<[`StateTree`](../type-aliases/StateTree.md)\>, [`_ActionsTree`](../type-aliases/ActionsTree.md)\>\> & [`_GettersTree`](../type-aliases/GettersTree.md)\<`S`\>
+> `optional` **getters**: `G` & `ThisType`\<`UnwrapRef`\<`S`\> & `_StoreWithGetters_Readonly`\<`G`\> & `_StoreWithGetters_Writable`\<`G`\> & [`PiniaCustomProperties`](PiniaCustomProperties.md)\<`string`, [`StateTree`](../type-aliases/StateTree.md), [`_GettersTree`](../type-aliases/GettersTree.md)\<[`StateTree`](../type-aliases/StateTree.md)\>, [`_ActionsTree`](../type-aliases/ActionsTree.md)\>\> & [`_GettersTree`](../type-aliases/GettersTree.md)\<`S`\>
 
 Optional object of getters.
 

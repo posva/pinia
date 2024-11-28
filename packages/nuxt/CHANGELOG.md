@@ -1,3 +1,32 @@
+## [0.8.0](https://github.com/vuejs/pinia/compare/@pinia/nuxt@0.7.0...@pinia/nuxt@0.8.0) (2024-11-28)
+
+### Bug Fixes
+
+- allow module to install pinia alongside ([#2846](https://github.com/vuejs/pinia/issues/2846)) ([3e8ed69](https://github.com/vuejs/pinia/commit/3e8ed69addc30954b887241faed8778048e5d20e))
+
+# [0.7.0](https://github.com/vuejs/pinia/compare/@pinia/nuxt@0.6.1...@pinia/nuxt@0.7.0) (2024-11-03)
+
+### Bug Fixes
+
+- dedupe pinia ([#2821](https://github.com/vuejs/pinia/issues/2821)) ([90d8eb9](https://github.com/vuejs/pinia/commit/90d8eb900071964388c54d579ffc84c8ef01c191))
+
+## [0.6.1](https://github.com/vuejs/pinia/compare/@pinia/nuxt@0.6.0...@pinia/nuxt@0.6.1) (2024-10-31)
+
+### Bug Fixes
+
+- upgrade minimum version for nuxt kit ([3dab0a6](https://github.com/vuejs/pinia/commit/3dab0a6a43f00d7a52d62d53748c7d5e0cb061ea)), closes [#2814](https://github.com/vuejs/pinia/issues/2814)
+
+# [0.6.0](https://github.com/vuejs/pinia/compare/@pinia/nuxt@0.5.5...@pinia/nuxt@0.6.0) (2024-10-29)
+
+### Bug Fixes
+
+- avoid broken alias ([65031ee](https://github.com/vuejs/pinia/commit/65031ee77ed46a34bc2359223e24c7944e840819))
+- **nuxt:** ensure payload plugin declaration is generated ([#2806](https://github.com/vuejs/pinia/issues/2806)) ([99ab76c](https://github.com/vuejs/pinia/commit/99ab76c685405a93f7fc41b335fe5710e9b7fee8))
+
+### Features
+
+- **nuxt:** do not serialize skipHydrate properties ([e645fc1](https://github.com/vuejs/pinia/commit/e645fc12ea115a2d2cc395ad83e4cc3df350c4ea))
+
 ## [0.5.5](https://github.com/vuejs/pinia/compare/@pinia/nuxt@0.5.4...@pinia/nuxt@0.5.5) (2024-09-30)
 
 No changes in this release

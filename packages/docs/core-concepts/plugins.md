@@ -112,7 +112,7 @@ This is why you can access all computed properties without `.value` and why they
 If you want to add new state properties to a store or properties that are meant to be used during hydration, **you will have to add it in two places**:
 
 - On the `store` so you can access it with `store.myState`
-- On `store.$state` so it can be used in devtools and, **be serialized during SSR**.
+- On `store.$state` so it can be used in devtools and **be serialized during SSR**.
 
 On top of that, you will certainly have to use a `ref()` (or other reactive API) in order to share the value across different accesses:
 
@@ -209,7 +209,7 @@ pinia.use(({ store }) => {
 
 ## Calling `$subscribe` inside plugins
 
-You can use [store.$subscribe](./state.md#subscribing-to-the-state) and [store.$onAction](./actions.md#subscribing-to-actions) inside plugins too:
+You can use [store.$subscribe](./state.md#Subscribing-to-the-state) and [store.$onAction](./actions.md#Subscribing-to-actions) inside plugins too:
 
 ```ts
 pinia.use(({ store }) => {

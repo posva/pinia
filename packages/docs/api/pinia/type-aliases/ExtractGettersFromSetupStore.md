@@ -10,7 +10,7 @@ editLink: false
 
 # Type Alias: \_ExtractGettersFromSetupStore\<SS\>
 
-> **\_ExtractGettersFromSetupStore**\<`SS`\>: `SS` *extends* `undefined` \| `void` ? `object` : [`_ExtractGettersFromSetupStore_Keys`](ExtractGettersFromSetupStore_Keys.md)\<`SS`\> *extends* keyof `SS` ? `Pick`\<`SS`, [`_ExtractGettersFromSetupStore_Keys`](ExtractGettersFromSetupStore_Keys.md)\<`SS`\>\> : `never`
+> **\_ExtractGettersFromSetupStore**\<`SS`\>: `SS` *extends* `undefined` \| `void` ? `object` : `Pick`\<`SS`, [`_ExtractGettersFromSetupStore_Keys`](ExtractGettersFromSetupStore_Keys.md)\<`SS`\>\>
 
 For internal use **only**
 

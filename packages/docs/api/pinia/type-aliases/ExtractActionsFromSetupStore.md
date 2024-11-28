@@ -10,7 +10,7 @@ editLink: false
 
 # Type Alias: \_ExtractActionsFromSetupStore\<SS\>
 
-> **\_ExtractActionsFromSetupStore**\<`SS`\>: `SS` *extends* `undefined` \| `void` ? `object` : [`_ExtractActionsFromSetupStore_Keys`](ExtractActionsFromSetupStore_Keys.md)\<`SS`\> *extends* keyof `SS` ? `Pick`\<`SS`, [`_ExtractActionsFromSetupStore_Keys`](ExtractActionsFromSetupStore_Keys.md)\<`SS`\>\> : `never`
+> **\_ExtractActionsFromSetupStore**\<`SS`\>: `SS` *extends* `undefined` \| `void` ? `object` : `Pick`\<`SS`, [`_ExtractActionsFromSetupStore_Keys`](ExtractActionsFromSetupStore_Keys.md)\<`SS`\>\>
 
 For internal use **only**
 

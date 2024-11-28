@@ -10,7 +10,7 @@ editLink: false
 
 # Type Alias: \_StoreWithGetters\<G\>
 
-> **\_StoreWithGetters**\<`G`\>: `{ readonly [k in keyof G]: G[k] extends Function ? R : UnwrapRef<G[k]> }`
+> **\_StoreWithGetters**\<`G`\>: `_StoreWithGetters_Readonly`\<`G`\> & `_StoreWithGetters_Writable`\<`G`\>
 
 Store augmented with getters. For internal usage only.
 For internal use **only**

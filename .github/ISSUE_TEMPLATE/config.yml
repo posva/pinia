@@ -3,6 +3,9 @@ contact_links:
   - name: Question
     url: https://github.com/vuejs/pinia/discussions/new?category=Q-A
     about: Ask a question or discuss about Pinia
+  - name: Paid consultation
+    url: https://cal.com/posva/consultancy
+    about: Get direct help from the author of Pinia with your project
   - name: Ideas
     url: https://github.com/vuejs/pinia/discussions/new?category=Ideas
     about: Start a discussion to improve Pinia

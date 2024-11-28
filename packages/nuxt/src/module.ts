@@ -4,10 +4,9 @@
 import {
   defineNuxtModule,
   addPlugin,
-  isNuxt2,
+  isNuxtMajorVersion,
   addImports,
   createResolver,
-  resolveModule,
   addImportsDir,
 } from '@nuxt/kit'
 import type { NuxtModule } from '@nuxt/schema'
@@ -37,7 +36,7 @@ const module: NuxtModule<ModuleOptions> = defineNuxtModule<ModuleOptions>({
     name: 'pinia',
     configKey: 'pinia',
     compatibility: {
-      nuxt: '^2.0.0 || >=3.0.0-rc.5',
+      nuxt: '^2.0.0 || >=3.13.0',
       bridge: true,
     },
   },
@@ -54,7 +53,7 @@ const module: NuxtModule<ModuleOptions> = defineNuxtModule<ModuleOptions>({
       nuxt.options.features &&
       // ts
       options.disableVuex &&
-      isNuxt2()
+      isNuxtMajorVersion(2, nuxt)
     ) {
       // @ts-expect-error: no `store` feature flag in nuxt v3
       nuxt.options.features.store = false
@@ -63,13 +62,12 @@ const module: NuxtModule<ModuleOptions> = defineNuxtModule<ModuleOptions>({
     // Transpile runtime
     nuxt.options.build.transpile.push(resolve(runtimeDir))
 
-    // Make sure we use the mjs build for pinia
-    nuxt.options.alias.pinia =
-      nuxt.options.alias.pinia ||
-      // FIXME: remove this deprecated call. Ensure it works in Nuxt 2 to 3
-      resolveModule('pinia/dist/pinia.mjs', {
-        paths: [nuxt.options.rootDir, import.meta.url],
-      })
+    // avoids having multiple copies of pinia
+    nuxt.options.vite.optimizeDeps ??= {}
+    nuxt.options.vite.optimizeDeps.exclude ??= []
+    if (!nuxt.options.vite.optimizeDeps.exclude.includes('pinia')) {
+      nuxt.options.vite.optimizeDeps.exclude.push('pinia')
+    }
 
     nuxt.hook('prepare:types', ({ references }) => {
       references.push({ types: '@pinia/nuxt' })
@@ -78,7 +76,7 @@ const module: NuxtModule<ModuleOptions> = defineNuxtModule<ModuleOptions>({
     // Add runtime plugin before the router plugin
     // https://github.com/nuxt/framework/issues/9130
     nuxt.hook('modules:done', () => {
-      if (isNuxt2()) {
+      if (isNuxtMajorVersion(2, nuxt)) {
         addPlugin(resolve(runtimeDir, 'plugin.vue2'))
       } else {
         addPlugin(resolve(runtimeDir, 'plugin.vue3'))

@@ -92,5 +92,6 @@ editLink: false
 - [mapWritableState](functions/mapWritableState.md)
 - [setActivePinia](functions/setActivePinia.md)
 - [setMapStoreSuffix](functions/setMapStoreSuffix.md)
+- [shouldHydrate](functions/shouldHydrate.md)
 - [skipHydrate](functions/skipHydrate.md)
 - [storeToRefs](functions/storeToRefs.md)

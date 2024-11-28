@@ -63,10 +63,10 @@ onServerPrefetch(async () => {
 
 ## State hydration
 
-To hydrate the initial state, you need to make sure the rootState is included somewhere in the HTML for Pinia to pick it up later on. Depending on what you are using for SSR, **you should escape the state for security reasons**. We recommend using [@nuxt/devalue](https://github.com/nuxt-contrib/devalue) which is the one used by Nuxt.js:
+To hydrate the initial state, you need to make sure the rootState is included somewhere in the HTML for Pinia to pick it up later on. Depending on what you are using for SSR, **you should escape the state for security reasons**. We recommend using [devalue](https://github.com/Rich-Harris/devalue) which is the one used by Nuxt.js:
 
 ```js
-import devalue from '@nuxt/devalue'
+import devalue from 'devalue'
 import { createPinia } from 'pinia'
 // retrieve the rootState server side
 const pinia = createPinia()
@@ -83,7 +83,7 @@ app.use(pinia)
 devalue(pinia.state.value)
 ```
 
-Depending on what you are using for SSR, you will set an _initial state_ variable that will be serialized in the HTML. You should also protect yourself from XSS attacks. You can use [other alternatives](https://github.com/nuxt-contrib/devalue#see-also) to `@nuxt/devalue` depending on what you need, e.g. if you can serialize and parse your state with `JSON.stringify()`/`JSON.parse()`, **you could improve your performance by a lot**.
+Depending on what you are using for SSR, you will set an _initial state_ variable that will be serialized in the HTML. You should also protect yourself from XSS attacks. You can use [other alternatives](https://github.com/Rich-Harris/devalue#see-also) to `devalue` depending on what you need, e.g. if you can serialize and parse your state with `JSON.stringify()`/`JSON.parse()`, **you could improve your performance by a lot**.
 
 If you are not using Nuxt you will need to handle the serialization and hydration of the state yourself. Here are some examples:
 

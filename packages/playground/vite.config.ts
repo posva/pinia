@@ -1,11 +1,11 @@
 import { defineConfig, Plugin } from 'vite'
-import vue from '@vitejs/plugin-vue'
+import Vue from '@vitejs/plugin-vue'
 import { promises as fs } from 'fs'
 import path from 'path'
 
 // https://vitejs.dev/config/
 export default defineConfig({
-  plugins: [vue(), copyPiniaPlugin()],
+  plugins: [Vue(), copyPiniaPlugin()],
   define: {
     __DEV__: 'true',
     // __BROWSER__: 'true',
@@ -17,6 +17,7 @@ export default defineConfig({
     // },
     dedupe: ['vue-demi', 'vue', 'pinia'],
     alias: {
+      // FIXME: use fileToUrl
       pinia: path.resolve(__dirname, '../pinia/src/index.ts'),
     },
   },

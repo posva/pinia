@@ -24,9 +24,9 @@ Pinia is a store library for Vue, it allows you to share a state across componen
 - Testing utilities
 - Plugins: extend Pinia features with plugins
 - Proper TypeScript support or **autocompletion** for JS users
-- Server Side Rendering Support
+- Server Side Rendering support
 - Devtools support
-  - A timeline to track actions, mutations
+  - A timeline to track actions and mutations
   - Stores appear in components where they are used
   - Time travel and easier debugging
 - Hot module replacement

@@ -168,7 +168,7 @@ expect(store.someAction).toHaveBeenCalledTimes(1)
 
 ### Mocking the returned value of an action
 
-Actions are automatically spied but type-wise, they are still the regular actions. In order to get the correct type, we must implement a custom type-wrapper that is applies the `Mock` type to each action. **This type depends on the testing framework you are using**. Here is an example with Vitest:
+Actions are automatically spied but type-wise, they are still the regular actions. In order to get the correct type, we must implement a custom type-wrapper that applies the `Mock` type to each action. **This type depends on the testing framework you are using**. Here is an example with Vitest:
 
 ```ts
 import type { Mock } from 'vitest'

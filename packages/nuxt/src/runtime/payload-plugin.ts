@@ -3,6 +3,7 @@ import {
   definePayloadReducer,
   definePayloadReviver,
 } from '#imports'
+import {} from 'nuxt/app'
 import { shouldHydrate } from 'pinia'
 
 /**
