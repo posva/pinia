@@ -10,7 +10,7 @@ import {
   setMapStoreSuffix,
 } from '../src'
 import { mount } from '@vue/test-utils'
-import { nextTick, defineComponent } from 'vue'
+import { nextTick, defineComponent, ref, computed } from 'vue'
 import { mockWarn } from './vitest-mock-warn'
 
 describe('Map Helpers', () => {
@@ -243,6 +243,35 @@ describe('Map Helpers', () => {
         `{{ count }} {{ myA }}`,
         `0 true`,
         'replaced replaced'
+      )
+    })
+
+    it('setup store', async () => {
+      const useSetupStore = defineStore('setup', () => {
+        const a = ref(true)
+        const n = ref(0)
+
+        const double = computed({
+          get: () => n.value + n.value,
+          set: (v) => {
+            n.value = v
+          },
+        })
+        const notA = computed({
+          get: () => !a.value,
+          set: (v) => {
+            a.value = v
+          },
+        })
+
+        return { a, n, double, notA }
+      })
+
+      await testComponent(
+        mapWritableState(useSetupStore, ['n', 'a', 'double', 'notA']),
+        `{{ n }} {{ a }} {{ double }} {{ notA }}`,
+        `0 true 0 false`,
+        'replaced replaced replacedreplaced false'
       )
     })
   })
