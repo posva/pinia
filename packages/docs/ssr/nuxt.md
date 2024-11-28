@@ -62,7 +62,7 @@ await useAsyncData('user', () => store.fetchUser().then(() => true))
 
 ::: tip
 
-If you want to use a store outside of `setup()`, remember to pass the `$pinia` object to `useStore()`, for the reasons alluded to [here](https://pinia.vuejs.org/core-concepts/outside-component-usage.html#SSR-Apps).
+If you want to use a store outside of `setup()`, remember to pass the `$pinia` instance to `useStore()`, for the reasons alluded to [here](https://pinia.vuejs.org/core-concepts/outside-component-usage.html#SSR-Apps).
 
 ```js
 import { useStore } from '~/stores/myStore'
