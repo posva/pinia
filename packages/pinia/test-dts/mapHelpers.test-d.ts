@@ -29,13 +29,17 @@ describe('mapHelpers', () => {
   const useSetupStore = defineStore('setupStore', () => {
     const a = ref('on' as 'on' | 'off')
     const upper = computed(() => a.value.toUpperCase())
+    const writableUpper = computed({
+      get: () => a.value.toUpperCase(),
+      set: (v: 'on' | 'off') => (a.value = v),
+    })
     function toggleA() {
       a.value = a.value === 'off' ? 'on' : 'off'
     }
     function setToggle(aVal: 'on' | 'off') {
       return (a.value = aVal)
     }
-    return { a, upper, toggleA, setToggle }
+    return { a, upper, writableUpper, toggleA, setToggle }
   })
 
   const useCounter = defineStore({
@@ -161,6 +165,17 @@ describe('mapHelpers', () => {
           set: (v: 'on' | 'off') => any
         }
       }>(mapWritableState(useSetupStore, ['a']))
+
+      expectTypeOf<{
+        a: {
+          get: () => 'on' | 'off'
+          set: (v: 'on' | 'off') => any
+        }
+        writableUpper: {
+          get: () => string
+          set: (v: 'on' | 'off') => any
+        }
+      }>(mapWritableState(useSetupStore, ['a', 'writableUpper']))
     })
   })
 })
