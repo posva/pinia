@@ -572,11 +572,7 @@ export type _ActionsTree = Record<string, _Method>
  * For internal use **only**
  */
 export type _ExtractStateFromSetupStore_Keys<SS> = keyof {
-  [K in keyof SS as SS[K] extends _Method | ComputedRef
-    ? SS[K] extends WritableComputedRef<any>
-      ? K
-      : never
-    : K]: any
+  [K in keyof SS as SS[K] extends _Method | ComputedRef ? never : K]: any
 }
 
 /**

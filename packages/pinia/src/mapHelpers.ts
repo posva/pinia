@@ -1,7 +1,7 @@
 import type { ComponentPublicInstance, ComputedRef, UnwrapRef } from 'vue-demi'
 import type {
   _GettersTree,
-  _Method,
+  _StoreWithGetters_Writable,
   StateTree,
   Store,
   StoreDefinition,
@@ -431,10 +431,21 @@ export function mapActions<
 /**
  * For internal use **only**
  */
-export type _MapWritableStateReturn<S> = {
-  [key in keyof S]: {
-    get: () => S[key]
-    set: (value: S[key]) => any
+export type _MapWritableStateKeys<S extends StateTree, G> =
+  | keyof UnwrapRef<S>
+  | keyof _StoreWithGetters_Writable<G>
+
+/**
+ * For internal use **only**
+ */
+export type _MapWritableStateReturn<
+  S extends StateTree,
+  G,
+  Keys extends _MapWritableStateKeys<S, G>,
+> = {
+  [key in Keys]: {
+    get: () => UnwrapRef<(S & G)[key]>
+    set: (value: UnwrapRef<(S & G)[key]>) => any
   }
 }
 
@@ -442,12 +453,13 @@ export type _MapWritableStateReturn<S> = {
  * For internal use **only**
  */
 export type _MapWritableStateObjectReturn<
-  S,
-  T extends Record<string, keyof S>,
+  S extends StateTree,
+  G,
+  KeyMapper extends Record<string, _MapWritableStateKeys<S, G>>,
 > = {
-  [key in keyof T]: {
-    get: () => S[T[key]]
-    set: (value: S[T[key]]) => any
+  [key in keyof KeyMapper]: {
+    get: () => UnwrapRef<(S & G)[KeyMapper[key]]>
+    set: (value: UnwrapRef<(S & G)[KeyMapper[key]]>) => any
   }
 }
 
@@ -462,13 +474,13 @@ export type _MapWritableStateObjectReturn<
 export function mapWritableState<
   Id extends string,
   S extends StateTree,
-  G extends _GettersTree<S>,
+  G,
   A,
-  KeyMapper extends Record<string, keyof UnwrapRef<S>>,
+  KeyMapper extends Record<string, _MapWritableStateKeys<S, G>>,
 >(
   useStore: StoreDefinition<Id, S, G, A>,
   keyMapper: KeyMapper
-): _MapWritableStateObjectReturn<UnwrapRef<S>, KeyMapper>
+): _MapWritableStateObjectReturn<S, G, KeyMapper>
 /**
  * Allows using state and getters from one store without using the composition
  * API (`setup()`) by generating an object to be spread in the `computed` field
@@ -480,13 +492,13 @@ export function mapWritableState<
 export function mapWritableState<
   Id extends string,
   S extends StateTree,
-  G extends _GettersTree<S>,
+  G,
   A,
-  Keys extends keyof UnwrapRef<S>,
+  Keys extends _MapWritableStateKeys<S, G>,
 >(
   useStore: StoreDefinition<Id, S, G, A>,
   keys: readonly Keys[]
-): Pick<_MapWritableStateReturn<UnwrapRef<S>>, Keys>
+): Pick<_MapWritableStateReturn<S, G, Keys>, Keys>
 /**
  * Allows using state and getters from one store without using the composition
  * API (`setup()`) by generating an object to be spread in the `computed` field
@@ -498,43 +510,51 @@ export function mapWritableState<
 export function mapWritableState<
   Id extends string,
   S extends StateTree,
-  G extends _GettersTree<S>,
+  G,
   A,
-  KeyMapper extends Record<string, keyof S>,
+  Keys extends _MapWritableStateKeys<S, G>,
+  KeyArr extends Keys[],
+  KeyMapper extends Record<string, Keys>,
 >(
   useStore: StoreDefinition<Id, S, G, A>,
-  keysOrMapper: Array<keyof S> | KeyMapper
-): _MapWritableStateReturn<S> | _MapWritableStateObjectReturn<S, KeyMapper> {
+  keysOrMapper: KeyArr | KeyMapper
+):
+  | _MapWritableStateReturn<S, G, Keys>
+  | _MapWritableStateObjectReturn<S, G, KeyMapper> {
   return Array.isArray(keysOrMapper)
-    ? keysOrMapper.reduce((reduced, key) => {
-        // @ts-ignore
-        reduced[key] = {
-          get(this: ComponentPublicInstance) {
-            // @ts-expect-error: FIXME: should work?
-            return useStore(this.$pinia)[key]
-          },
-          set(this: ComponentPublicInstance, value) {
-            // @ts-expect-error: FIXME: should work?
-            return (useStore(this.$pinia)[key] = value)
-          },
-        }
-        return reduced
-      }, {} as _MapWritableStateReturn<S>)
-    : Object.keys(keysOrMapper).reduce(
-        (reduced, key: keyof KeyMapper) => {
-          // @ts-ignore
+    ? keysOrMapper.reduce(
+        (reduced, key) => {
           reduced[key] = {
             get(this: ComponentPublicInstance) {
-              // @ts-expect-error: FIXME: should work?
-              return useStore(this.$pinia)[keysOrMapper[key]]
+              return useStore(this.$pinia)[key] as (S & G)[typeof key]
             },
-            set(this: ComponentPublicInstance, value) {
-              // @ts-expect-error: FIXME: should work?
+            set(
+              this: ComponentPublicInstance,
+              value: Store<Id, S, G, A>[typeof key]
+            ) {
+              return (useStore(this.$pinia)[key] = value)
+            },
+          }
+          return reduced
+        },
+        {} as _MapWritableStateReturn<S, G, Keys>
+      )
+    : Object.keys(keysOrMapper).reduce(
+        (reduced, key: keyof KeyMapper) => {
+          reduced[key] = {
+            get(this: ComponentPublicInstance) {
+              return useStore(this.$pinia)[keysOrMapper[key]] as (S &
+                G)[KeyMapper[typeof key]]
+            },
+            set(
+              this: ComponentPublicInstance,
+              value: Store<Id, S, G, A>[KeyMapper[typeof key]]
+            ) {
               return (useStore(this.$pinia)[keysOrMapper[key]] = value)
             },
           }
           return reduced
         },
-        {} as _MapWritableStateObjectReturn<S, KeyMapper>
+        {} as _MapWritableStateObjectReturn<S, G, KeyMapper>
       )
 }
