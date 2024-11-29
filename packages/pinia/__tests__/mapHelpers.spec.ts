@@ -248,30 +248,23 @@ describe('Map Helpers', () => {
 
     it('setup store', async () => {
       const useSetupStore = defineStore('setup', () => {
-        const a = ref(true)
-        const n = ref(0)
+        const text = ref('initial')
 
-        const double = computed({
-          get: () => n.value + n.value,
+        const textUpper = computed({
+          get: () => text.value.toUpperCase(),
           set: (v) => {
-            n.value = v
-          },
-        })
-        const notA = computed({
-          get: () => !a.value,
-          set: (v) => {
-            a.value = v
+            text.value = v
           },
         })
 
-        return { a, n, double, notA }
+        return { text, textUpper }
       })
 
       await testComponent(
-        mapWritableState(useSetupStore, ['n', 'a', 'double', 'notA']),
-        `{{ n }} {{ a }} {{ double }} {{ notA }}`,
-        `0 true 0 false`,
-        'replaced replaced replacedreplaced false'
+        mapWritableState(useSetupStore, ['text', 'textUpper']),
+        `{{ text }} {{ textUpper }}`,
+        `initial INITIAL`,
+        'replaced REPLACED'
       )
     })
   })

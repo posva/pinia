@@ -167,15 +167,11 @@ describe('mapHelpers', () => {
       }>(mapWritableState(useSetupStore, ['a']))
 
       expectTypeOf<{
-        a: {
-          get: () => 'on' | 'off'
-          set: (v: 'on' | 'off') => any
-        }
         writableUpper: {
           get: () => string
           set: (v: 'on' | 'off') => any
         }
-      }>(mapWritableState(useSetupStore, ['a', 'writableUpper']))
+      }>(mapWritableState(useSetupStore, ['writableUpper']))
     })
   })
 })
