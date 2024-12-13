@@ -37,6 +37,27 @@ const MUTATIONS_LAYER_ID = 'pinia:mutations'
 const INSPECTOR_ID = 'pinia'
 const { assign } = Object
 
+const pluginDescriptor = {
+  id: 'dev.esm.pinia',
+  label: 'Pinia 🍍',
+  logo: 'https://pinia.vuejs.org/logo.svg',
+  packageName: 'pinia',
+  homepage: 'https://pinia.vuejs.org',
+  componentStateTypes,
+  settings: {
+    logStoreChanges: {
+      label: 'Notify about new/deleted stores',
+      type: 'boolean',
+      defaultValue: true,
+    },
+    // useEmojis: {
+    //   label: 'Use emojis in messages ⚡️',
+    //   type: 'boolean',
+    //   defaultValue: true,
+    // },
+  },
+} as const
+
 /**
  * Gets the displayed name of a store in devtools
  *
@@ -55,12 +76,7 @@ const getStoreType = (id: string) => '🍍 ' + id
 export function registerPiniaDevtools(app: DevtoolsApp, pinia: Pinia) {
   setupDevtoolsPlugin(
     {
-      id: 'dev.esm.pinia',
-      label: 'Pinia 🍍',
-      logo: 'https://pinia.vuejs.org/logo.svg',
-      packageName: 'pinia',
-      homepage: 'https://pinia.vuejs.org',
-      componentStateTypes,
+      ...pluginDescriptor,
       app,
     },
     (api) => {
@@ -308,25 +324,8 @@ function addStoreToDevtools(app: DevtoolsApp, store: StoreGeneric) {
 
   setupDevtoolsPlugin(
     {
-      id: 'dev.esm.pinia',
-      label: 'Pinia 🍍',
-      logo: 'https://pinia.vuejs.org/logo.svg',
-      packageName: 'pinia',
-      homepage: 'https://pinia.vuejs.org',
-      componentStateTypes,
+      ...pluginDescriptor,
       app,
-      settings: {
-        logStoreChanges: {
-          label: 'Notify about new/deleted stores',
-          type: 'boolean',
-          defaultValue: true,
-        },
-        // useEmojis: {
-        //   label: 'Use emojis in messages ⚡️',
-        //   type: 'boolean',
-        //   defaultValue: true,
-        // },
-      },
     },
     (api) => {
       // gracefully handle errors
