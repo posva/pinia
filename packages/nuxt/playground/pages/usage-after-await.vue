@@ -6,6 +6,13 @@ const useFancyCounter = async () => {
   return useCounter()
 }
 
+const event = useRequestEvent()
+useNuxtApp().hook('vue:error', (error) => {
+  if (event) {
+    setResponseStatus(event, 500, String(error))
+  }
+})
+
 const counter = await useFancyCounter()
 </script>
 
