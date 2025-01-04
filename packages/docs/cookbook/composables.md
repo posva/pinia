@@ -40,7 +40,7 @@ Here are some examples of composables that cannot be used in an option stores (b
 On the other hand, when defining a setup store, you can use almost any composable since every property gets discerned into state, action, or getter:
 
 ```ts
-import { defineStore, skipHydrate } from 'pinia'
+import { defineStore } from 'pinia'
 import { useMediaControls } from '@vueuse/core'
 
 export const useVideoPlayer = defineStore('video', () => {
@@ -78,7 +78,7 @@ When dealing with [Server Side Rendering](../ssr/index.md), you need to take car
 In [Option Stores](#option-stores), you need to define a `hydrate()` function. This function is called when the store is instantiated on the client (the browser) when there is an initial state available at the time the store is created. The reason we need to define this function is because in such scenario, `state()` is not called.
 
 ```ts
-import { defineStore, skipHydrate } from 'pinia'
+import { defineStore } from 'pinia'
 import { useLocalStorage } from '@vueuse/core'
 
 export const useAuthStore = defineStore('auth', {
