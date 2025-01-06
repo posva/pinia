@@ -47,7 +47,9 @@ Note that if one store uses another store, you can directly import and call the 
 When it comes to _setup stores_, you can simply use one of the stores **at the top** of the store function:
 
 ```ts
+import { defineStore } from 'pinia'
 import { useUserStore } from './user'
+import { apiPurchase } from './api'
 
 export const useCartStore = defineStore('cart', () => {
   const user = useUserStore()
@@ -58,7 +60,7 @@ export const useCartStore = defineStore('cart', () => {
   })
 
   function purchase() {
-    return apiPurchase(user.id, this.list)
+    return apiPurchase(user.id, list.value)
   }
 
   return { summary, purchase }
@@ -91,7 +93,8 @@ The same applies to _actions_:
 ```js
 import { defineStore } from 'pinia'
 import { useUserStore } from './user'
-
+import { apiOrderCart } from './api'
+ 
 export const useCartStore = defineStore('cart', {
   actions: {
     async orderCart() {
@@ -114,7 +117,8 @@ Since actions can be asynchronous, make sure **all of your `useStore()` calls ap
 ```js{7-8,11-13}
 import { defineStore } from 'pinia'
 import { useUserStore } from './user'
-
+import { apiOrderCart } from './api'
+  
 export const useCartStore = defineStore('cart', {
   actions: {
     async orderCart() {
