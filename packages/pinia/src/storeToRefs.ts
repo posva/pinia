@@ -120,6 +120,6 @@ export function storeToRefs<SS extends StoreGeneric>(
       }
     }
 
-    return { ...store.actions, ...refs }
+    return refs
   }
 }
