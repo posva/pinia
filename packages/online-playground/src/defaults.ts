@@ -2,7 +2,7 @@ import { InjectionKey, Ref } from 'vue'
 
 export const AppVue = `
 <script setup lang="ts">
-import { useStore } from './counter.ts'
+import { useStore } from './counter'
 
 const store = useStore()
 </script>

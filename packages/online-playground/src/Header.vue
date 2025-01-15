@@ -25,7 +25,7 @@ const piniaVersion = inject(PiniaVersionKey)!
 
 async function setVueVersion(v: string) {
   vueVersion.value = `loading...`
-  await store.setVueVersion(v)
+  store.vueVersion = v
   vueVersion.value = `v${v}`
 }
 
@@ -59,7 +59,7 @@ function toggleDark() {
       </a>
     </h1>
     <div class="links">
-      <VersionSelect v-model="store.state.typescriptVersion" pkg="typescript">
+      <VersionSelect v-model="store.typescriptVersion" pkg="typescript">
         <template #label>
           <img src="/logo-ts.svg" alt="TypeScript" class="version-logo" />
         </template>

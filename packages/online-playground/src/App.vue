@@ -1,8 +1,8 @@
 <script setup lang="ts">
 import Header from './Header.vue'
-import { Repl, ReplStore, SFCOptions, ReplProps } from '@vue/repl'
+import { Repl, useStore, useVueImportMap, SFCOptions, ReplProps } from '@vue/repl'
 import Monaco from '@vue/repl/monaco-editor'
-import { ref, watchEffect, onMounted, provide } from 'vue'
+import { computed, ref, watchEffect, onMounted, provide } from 'vue'
 import { AppVue, PiniaVersionKey, counterTs } from './defaults'
 
 const setVH = () => {
@@ -19,14 +19,46 @@ if (hash.startsWith('__DEV__')) {
   useDevMode.value = true
 }
 
-// TODO: we should fetch the latest version and set it by default here
-const store = new ReplStore({
-  serializedState: hash,
-  defaultVueRuntimeURL:
-    'https://cdn.jsdelivr.net/npm/@vue/runtime-dom@3.4.21/dist/runtime-dom.esm-browser.js',
-  defaultVueServerRendererURL:
-    'https://cdn.jsdelivr.net/npm/@vue/server-renderer@3.4.21/dist/server-renderer.esm-browser.js',
+const {
+  importMap: builtinImportMap,
+  vueVersion,
+  productionMode,
+} = useVueImportMap({
+  runtimeDev: 'https://cdn.jsdelivr.net/npm/vue@3/dist/vue.runtime.esm-browser.js',
+  runtimeProd: 'https://cdn.jsdelivr.net/npm/vue@3/dist/vue.runtime.esm-browser.prod.js',
+  serverRenderer: 'https://cdn.jsdelivr.net/npm/@vue/server-renderer@3/dist/server-renderer.esm-browser.js',
 })
+
+const store = useStore(
+  {
+    // pre-set import map
+    builtinImportMap: computed(() => ({
+      imports: {
+        ...builtinImportMap.value.imports,
+        ...(import.meta.env.PROD
+        ? {
+            pinia: '/pinia.esm-browser.js',
+            '@vue/devtools-api': 'https://cdn.jsdelivr.net/npm/@vue/devtools-api@6.6.1/lib/esm/index.js',
+            // Latest 3.x version
+            'vue-demi': 'https://cdn.jsdelivr.net/npm/vue-demi@0/lib/v3/index.mjs',
+            // Latest 5.x version
+            'typescript': 'https://cdn.jsdelivr.net/npm/typescript@5/lib/typescript.min.js',
+          }
+        : {
+            pinia: '/src/pinia-dev-proxy',
+            vue: '/src/vue-dev-proxy',
+            'vue/server-renderer': '/src/vue-server-renderer-dev-proxy',
+            // Latest 5.x version
+            'typescript': 'https://cdn.jsdelivr.net/npm/typescript@5/lib/typescript.min.js',
+          }),
+      }
+    })),
+    vueVersion,
+    sfcOptions: computed(() => sfcOptions),
+  },
+  // initialize repl with previously serialized state
+  hash,
+)
 
 const previewOptions: ReplProps['previewOptions'] = {
   customCode: {
@@ -62,25 +94,6 @@ provide(PiniaVersionKey, piniaVersion)
 // FIXME: use a CDN that can fix the sub deps: https://play.pinia.vuejs.org/#eNp9VMFy2jAQ/RWNL8AEJJikOTCQuu3kkB7aTtOjL8ZeQMReaaQ1YYbxv3ctg0MI5GR79+3bt09a76Nv1sptBdE0mvnMaUvCA1VWFCmu5klEPokeEtSlNY7EXlQensk4ELVYOlOKnlSZqZDASfK9BBPMDHomCaB5h+8PEpyptgPz8QdBaYuUgL+EmC0qIoMizgqdvXDfUC/x5obbP2HmoATk/vuWWKKo65lqi5hgpjq2aBi1YkdlauXGG+TR9k2P5JDgiaYiRJqY1ajTJpJEKrxL8OVo4cyr55k2DB4eoTH7pHLYkjGFH6VWt2VrIuunSnGd9Gv1ARXfyy9yogq9aCBKYw67j8RsFDvp4CrnERBPxsw3/pqD9XOOj3IodTyWkzt5f8J5zFzkOyvruOJbeSvv3rNcI7iEVezZFtzIAQ/pwF036Ax4JGu46gRrPkXyfJOWenV2hpkprS7A/bak+aa9O8u0KMzrzxAjV0GnLFtD9nIhvvG7VuEfB0HQyTSUuhVQm358/gU7fu+Spcmr4uDMleRf8KaoGo0t7HuFOcs+wQW1T+FKalz98487AvTHoRqhwY2AD+7++GT0N7ns5ImLb8vJFnZbnMNS49kih8vPG9yBHCy7JHcPyw27kGx3vPsXzE8J+72wor1hK84Tb+VU9Adi/iD6B704FeMwVz3gRz2I6v/N038l
 
 if (!hash) {
-  store.setImportMap({
-    imports: {
-      ...store.getImportMap().imports,
-      ...(import.meta.env.PROD
-        ? {
-            pinia: '/pinia.esm-browser.js',
-            '@vue/devtools-api':
-              'https://cdn.jsdelivr.net/npm/@vue/devtools-api@6.6.1/lib/esm/index.js',
-            'vue-demi':
-              'https://cdn.jsdelivr.net/npm/vue-demi@0.14.7/lib/v3/index.mjs',
-          }
-        : {
-            pinia: '/src/pinia-dev-proxy',
-            vue: '/src/vue-dev-proxy',
-            'vue/server-renderer': '/src/vue-server-renderer-dev-proxy',
-          }),
-    },
-  })
-
   store.setFiles({
     // gets the tsconfig and import map
     ...store.getFiles(),
@@ -90,12 +103,10 @@ if (!hash) {
 }
 
 // persist state
-watchEffect(() => {
-  const newHash = store
-    .serialize()
-    .replace(/^#/, useDevMode.value ? `#__DEV__` : `#`)
-  history.replaceState({}, '', newHash)
-})
+watchEffect(() => history.replaceState({}, '', store.serialize()))
+
+// production mode is enabled
+productionMode.value = import.meta.env.PROD
 
 function toggleDevMode() {
   const dev = (useDevMode.value = !useDevMode.value)

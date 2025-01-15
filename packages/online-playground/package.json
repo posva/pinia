@@ -1,5 +1,5 @@
 {
-  "name": "@pinia/playground",
+  "name": "@pinia/online-playground",
   "version": "0.0.0",
   "type": "module",
   "private": true,
@@ -11,10 +11,11 @@
   "devDependencies": {
     "@vitejs/plugin-vue": "^5.2.1",
     "execa": "^9.5.1",
+    "typescript": "^5.7.2",
     "vite": "^6.0.2"
   },
   "dependencies": {
-    "@vue/repl": "^3.0.0",
+    "@vue/repl": "^4.4.2",
     "file-saver": "^2.0.5",
     "jszip": "^3.10.1",
     "pinia": "workspace:*",
