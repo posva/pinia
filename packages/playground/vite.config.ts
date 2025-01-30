@@ -12,17 +12,14 @@ export default defineConfig({
     __TEST__: 'false',
   },
   resolve: {
-    // alias: {
-    //   '@vue/composition-api': 'vue-demi',
-    // },
-    dedupe: ['vue-demi', 'vue', 'pinia'],
+    dedupe: ['vue', 'pinia'],
     alias: {
       // FIXME: use fileToUrl
       pinia: path.resolve(__dirname, '../pinia/src/index.ts'),
     },
   },
   optimizeDeps: {
-    exclude: ['vue-demi', '@vueuse/shared', '@vueuse/core', 'pinia'],
+    exclude: ['@vueuse/shared', '@vueuse/core', 'pinia'],
   },
 })
 

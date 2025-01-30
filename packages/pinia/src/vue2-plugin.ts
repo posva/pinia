@@ -1,4 +1,4 @@
-import type { Plugin } from 'vue-demi'
+import type { Plugin } from 'vue'
 import { registerPiniaDevtools } from './devtools'
 import { IS_CLIENT } from './env'
 import { Pinia, piniaSymbol, setActivePinia } from './rootStore'

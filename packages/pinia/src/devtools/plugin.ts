@@ -3,7 +3,7 @@ import {
   TimelineEvent,
   App as DevtoolsApp,
 } from '@vue/devtools-api'
-import { ComponentPublicInstance, markRaw, toRaw, unref, watch } from 'vue-demi'
+import { ComponentPublicInstance, markRaw, toRaw, unref, watch } from 'vue'
 import { Pinia, PiniaPluginContext } from '../rootStore'
 import {
   _GettersTree,

@@ -15,7 +15,7 @@
 import { useUserStore } from '../stores/user'
 import { useCartStore } from '../stores/cart'
 import { useCounter } from '../stores/counter'
-import { onUnmounted } from 'vue-demi'
+import { onUnmounted } from 'vue'
 
 const userStore = useUserStore()
 const cartStore = useCartStore()

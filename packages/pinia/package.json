@@ -73,8 +73,7 @@
     "@vue/test-utils": "^2.4.6"
   },
   "dependencies": {
-    "@vue/devtools-api": "^6.6.3",
-    "vue-demi": "^0.14.10"
+    "@vue/devtools-api": "^6.6.3"
   },
   "peerDependencies": {
     "typescript": ">=4.4.4",

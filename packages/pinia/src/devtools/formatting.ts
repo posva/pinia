@@ -4,7 +4,7 @@ import {
   CustomInspectorState,
 } from '@vue/devtools-api'
 import { MutationType, StoreGeneric } from '../types'
-import { DebuggerEvent } from 'vue-demi'
+import { DebuggerEvent } from 'vue'
 import { Pinia } from '../rootStore'
 import { isPinia } from './utils'
 

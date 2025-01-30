@@ -43,9 +43,6 @@
     "build": "tsup",
     "changelog": "conventional-changelog -p angular -i CHANGELOG.md -s --commit-path . -l @pinia/testing -r 1"
   },
-  "dependencies": {
-    "vue-demi": "^0.14.10"
-  },
   "devDependencies": {
     "pinia": "workspace:*",
     "tsup": "^8.3.5"
