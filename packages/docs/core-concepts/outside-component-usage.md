@@ -42,7 +42,7 @@ const router = createRouter({
 })
 
 // ❌ Depending on the order of imports this will fail
-const store = useStore()
+const store = useUserStore()
 
 router.beforeEach((to, from, next) => {
   // we wanted to use the store here
@@ -53,7 +53,7 @@ router.beforeEach((to, from, next) => {
 router.beforeEach((to) => {
   // ✅ This will work because the router starts its navigation after
   // the router is installed and pinia will be installed too
-  const store = useStore()
+  const store = useUserStore()
 
   if (to.meta.requiresAuth && !store.isLoggedIn) return '/login'
 })
