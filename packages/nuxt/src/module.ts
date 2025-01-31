@@ -101,6 +101,10 @@ const module: NuxtModule<ModuleOptions> = defineNuxtModule<ModuleOptions>({
     if (options.storesDirs) {
       for (const storeDir of options.storesDirs) {
         addImportsDir(resolve(nuxt.options.rootDir, storeDir))
+
+        for (const layer of nuxt.options._layers) {
+          addImportsDir(resolve(layer.config.rootDir, storeDir))
+        }
       }
     }
   },

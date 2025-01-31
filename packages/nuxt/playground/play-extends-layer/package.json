@@ -1,0 +1,8 @@
+{
+  "private": true,
+  "type": "module",
+  "name": "pinia-nuxt-playground-extends-layer",
+  "scripts": {
+    "dev": "nuxt dev"
+  }
+}
