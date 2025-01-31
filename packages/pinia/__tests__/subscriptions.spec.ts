@@ -353,5 +353,35 @@ describe('Subscriptions', () => {
       expect(spy1).toHaveBeenCalledTimes(1)
       expect(spy2).toHaveBeenCalledTimes(2)
     })
+
+    it('debugger events should not be array when subscription is not trigger by patch', () => {
+      const store = useStore()
+      store.$subscribe(
+        ({ type, events }) => {
+          if (type === MutationType.direct) {
+            expect(Array.isArray(events)).toBe(false)
+          }
+        },
+        { flush: 'sync' }
+      )
+      store.$patch({ user: 'Edu' })
+      store.user = 'a'
+    })
+
+    it('should trigger subscription when mutate state synchronously after patch', async () => {
+      const store = useStore()
+      const spy1 = vi.fn()
+      const spy2 = vi.fn()
+      const spy3 = vi.fn()
+      store.$subscribe(spy1, { flush: 'sync' })
+      store.$subscribe(spy2, { flush: 'pre' })
+      store.$subscribe(spy3, { flush: 'post' })
+      store.$patch({ user: 'Edu' })
+      store.user = 'a'
+      expect(spy1).toHaveBeenCalledTimes(2)
+      await nextTick()
+      expect(spy2).toHaveBeenCalledTimes(2)
+      expect(spy3).toHaveBeenCalledTimes(2)
+    })
   })
 })
