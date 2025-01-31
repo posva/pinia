@@ -56,7 +56,7 @@ import { addSubscription, triggerSubscriptions, noop } from './subscriptions'
 
 const fallbackRunWithContext = (fn: () => unknown) => fn()
 
-type _ArrayType<AT> = AT extends Array<infer T> ? T : never
+type _SetType<AT> = AT extends Set<infer T> ? T : never
 
 /**
  * Marks a function as an action for `$onAction`
@@ -273,8 +273,8 @@ function createSetupStore<
   // internal state
   let isListening: boolean // set to true at the end
   let isSyncListening: boolean // set to true at the end
-  let subscriptions: SubscriptionCallback<S>[] = []
-  let actionSubscriptions: StoreOnActionListener<Id, S, G, A>[] = []
+  let subscriptions: Set<SubscriptionCallback<S>> = new Set()
+  let actionSubscriptions: Set<StoreOnActionListener<Id, S, G, A>> = new Set()
   let debuggerEvents: DebuggerEvent[] | DebuggerEvent
   const initialState = pinia.state.value[$id] as UnwrapRef<S> | undefined
 
@@ -360,8 +360,8 @@ function createSetupStore<
 
   function $dispose() {
     scope.stop()
-    subscriptions = []
-    actionSubscriptions = []
+    subscriptions.clear()
+    actionSubscriptions.clear()
     pinia._s.delete($id)
   }
 
@@ -381,13 +381,13 @@ function createSetupStore<
       setActivePinia(pinia)
       const args = Array.from(arguments)
 
-      const afterCallbackList: Array<(resolvedReturn: any) => any> = []
-      const onErrorCallbackList: Array<(error: unknown) => unknown> = []
-      function after(callback: _ArrayType<typeof afterCallbackList>) {
-        afterCallbackList.push(callback)
+      const afterCallbackSet: Set<(resolvedReturn: any) => any> = new Set()
+      const onErrorCallbackSet: Set<(error: unknown) => unknown> = new Set()
+      function after(callback: _SetType<typeof afterCallbackSet>) {
+        afterCallbackSet.add(callback)
       }
-      function onError(callback: _ArrayType<typeof onErrorCallbackList>) {
-        onErrorCallbackList.push(callback)
+      function onError(callback: _SetType<typeof onErrorCallbackSet>) {
+        onErrorCallbackSet.add(callback)
       }
 
       // @ts-expect-error
@@ -404,24 +404,24 @@ function createSetupStore<
         ret = fn.apply(this && this.$id === $id ? this : store, args)
         // handle sync errors
       } catch (error) {
-        triggerSubscriptions(onErrorCallbackList, error)
+        triggerSubscriptions(onErrorCallbackSet, error)
         throw error
       }
 
       if (ret instanceof Promise) {
         return ret
           .then((value) => {
-            triggerSubscriptions(afterCallbackList, value)
+            triggerSubscriptions(afterCallbackSet, value)
             return value
           })
           .catch((error) => {
-            triggerSubscriptions(onErrorCallbackList, error)
+            triggerSubscriptions(onErrorCallbackSet, error)
             return Promise.reject(error)
           })
       }
 
       // trigger after callbacks
-      triggerSubscriptions(afterCallbackList, ret)
+      triggerSubscriptions(afterCallbackSet, ret)
       return ret
     } as MarkedAction<Fn>
 

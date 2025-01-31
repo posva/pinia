@@ -4,19 +4,16 @@ import { _Method } from './types'
 export const noop = () => {}
 
 export function addSubscription<T extends _Method>(
-  subscriptions: T[],
+  subscriptions: Set<T>,
   callback: T,
   detached?: boolean,
   onCleanup: () => void = noop
 ) {
-  subscriptions.push(callback)
+  subscriptions.add(callback)
 
   const removeSubscription = () => {
-    const idx = subscriptions.indexOf(callback)
-    if (idx > -1) {
-      subscriptions.splice(idx, 1)
-      onCleanup()
-    }
+    const isDel = subscriptions.delete(callback)
+    isDel && onCleanup()
   }
 
   if (!detached && getCurrentScope()) {
@@ -27,10 +24,10 @@ export function addSubscription<T extends _Method>(
 }
 
 export function triggerSubscriptions<T extends _Method>(
-  subscriptions: T[],
+  subscriptions: Set<T>,
   ...args: Parameters<T>
 ) {
-  subscriptions.slice().forEach((callback) => {
+  subscriptions.forEach((callback) => {
     callback(...args)
   })
 }
