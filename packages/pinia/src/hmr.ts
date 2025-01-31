@@ -4,6 +4,7 @@ import {
   isPlainObject,
   StateTree,
   StoreDefinition,
+  Store,
   StoreGeneric,
   _GettersTree,
   _Method,
@@ -77,13 +78,18 @@ export function patchObject(
  *
  * @param initialUseStore - return of the defineStore to hot update
  * @param hot - `import.meta.hot`
+ * @param cleanup - function to clean up side effects of the existing store
  */
 export function acceptHMRUpdate<
   Id extends string = string,
   S extends StateTree = StateTree,
   G extends _GettersTree<S> = _GettersTree<S>,
   A = _ActionsTree,
->(initialUseStore: StoreDefinition<Id, S, G, A>, hot: any) {
+>(
+  initialUseStore: StoreDefinition<Id, S, G, A>,
+  hot: any,
+  cleanup?: (existingStore: Store<Id, S, G, A>) => void
+) {
   // strip as much as possible from iife.prod
   if (!__DEV__) {
     return () => {}
@@ -111,15 +117,20 @@ export function acceptHMRUpdate<
           console.warn(
             `The id of the store changed from "${initialUseStore.$id}" to "${id}". Reloading.`
           )
-          // return import.meta.hot.invalidate()
           return hot.invalidate()
         }
 
         const existingStore: StoreGeneric = pinia._s.get(id)!
         if (!existingStore) {
-          console.log(`[Pinia]: skipping hmr because store doesn't exist yet`)
+          console.log(`[🍍]: Skipping HMR because store doesn't exist yet`)
           return
         }
+
+        // allow the old store to clean up side effects
+        if (typeof cleanup === 'function') {
+          cleanup(existingStore as Store<Id, S, G, A>)
+        }
+
         useStore(pinia, existingStore)
       }
     }
