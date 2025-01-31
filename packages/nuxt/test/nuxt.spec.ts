@@ -33,4 +33,10 @@ describe('works with nuxt', async () => {
     expect(html).not.toContain('I should not be serialized or hydrated')
     expect(html).toContain('skipHydrate-wrapped state is correct')
   })
+
+  it('throws an error server-side when the nuxt context is not available', async () => {
+    await expect($fetch('/usage-after-await')).rejects.toThrowError(
+      '[nuxt] instance unavailable'
+    )
+  })
 })
