@@ -3,13 +3,7 @@
  */
 export { setActivePinia, getActivePinia } from './rootStore'
 export { createPinia, disposePinia } from './createPinia'
-export type {
-  Pinia,
-  // TODO: remove in next release
-  PiniaStorePlugin,
-  PiniaPlugin,
-  PiniaPluginContext,
-} from './rootStore'
+export type { Pinia, PiniaPlugin, PiniaPluginContext } from './rootStore'
 
 export { defineStore, skipHydrate, shouldHydrate } from './store'
 export type {
