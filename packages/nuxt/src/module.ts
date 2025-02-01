@@ -14,14 +14,6 @@ import { fileURLToPath } from 'node:url'
 
 export interface ModuleOptions {
   /**
-   * Pinia disables Vuex by default, set this option to `false` to avoid it and
-   * use Pinia alongside Vuex (Nuxt 2 only)
-   *
-   * @default `true`
-   */
-  disableVuex?: boolean
-
-  /**
    * Automatically add stores dirs to the auto imports. This is the same as
    * directly adding the dirs to the `imports.dirs` option. If you want to
    * also import nested stores, you can use the glob pattern `./stores/**`
@@ -36,28 +28,14 @@ const module: NuxtModule<ModuleOptions> = defineNuxtModule<ModuleOptions>({
     name: 'pinia',
     configKey: 'pinia',
     compatibility: {
-      nuxt: '^2.0.0 || >=3.13.0',
-      bridge: true,
+      nuxt: '^3.15.0',
     },
   },
-  defaults: {
-    disableVuex: true,
-  },
+  defaults: {},
   setup(options, nuxt) {
     // configure transpilation
     const { resolve } = createResolver(import.meta.url)
     const runtimeDir = fileURLToPath(new URL('./runtime', import.meta.url))
-
-    // Disable default Vuex store (Nuxt v2.10+ only)
-    if (
-      nuxt.options.features &&
-      // ts
-      options.disableVuex &&
-      isNuxtMajorVersion(2, nuxt)
-    ) {
-      // @ts-expect-error: no `store` feature flag in nuxt v3
-      nuxt.options.features.store = false
-    }
 
     // Transpile runtime
     nuxt.options.build.transpile.push(resolve(runtimeDir))
@@ -76,12 +54,8 @@ const module: NuxtModule<ModuleOptions> = defineNuxtModule<ModuleOptions>({
     // Add runtime plugin before the router plugin
     // https://github.com/nuxt/framework/issues/9130
     nuxt.hook('modules:done', () => {
-      if (isNuxtMajorVersion(2, nuxt)) {
-        addPlugin(resolve(runtimeDir, 'plugin.vue2'))
-      } else {
-        addPlugin(resolve(runtimeDir, 'plugin.vue3'))
-        addPlugin(resolve(runtimeDir, 'payload-plugin'))
-      }
+      addPlugin(resolve(runtimeDir, 'plugin.vue3'))
+      addPlugin(resolve(runtimeDir, 'payload-plugin'))
     })
 
     // Add auto imports
