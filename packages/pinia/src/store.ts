@@ -803,21 +803,6 @@ export function defineStore<
 /**
  * Creates a `useStore` function that retrieves the store instance
  *
- * @param options - options to define the store
- *
- * @deprecated use `defineStore(id, options)` instead
- */
-export function defineStore<
-  Id extends string,
-  S extends StateTree = {},
-  G extends _GettersTree<S> = {},
-  // cannot extends ActionsTree because we loose the typings
-  A /* extends ActionsTree */ = {},
->(options: DefineStoreOptions<Id, S, G, A>): StoreDefinition<Id, S, G, A>
-
-/**
- * Creates a `useStore` function that retrieves the store instance
- *
  * @param id - id of the store (must be unique)
  * @param storeSetup - function that defines the store
  * @param options - extra options
@@ -841,11 +826,10 @@ export function defineStore<Id extends string, SS>(
 /*! #__NO_SIDE_EFFECTS__ */
 export function defineStore(
   // TODO: add proper types from above
-  idOrOptions: any,
+  id: any,
   setup?: any,
   setupOptions?: any
 ): StoreDefinition {
-  let id: string
   let options:
     | DefineStoreOptions<
         string,
@@ -861,20 +845,8 @@ export function defineStore(
       >
 
   const isSetupStore = typeof setup === 'function'
-  if (typeof idOrOptions === 'string') {
-    id = idOrOptions
-    // the option store setup will contain the actual options in this case
-    options = isSetupStore ? setupOptions : setup
-  } else {
-    options = idOrOptions
-    id = idOrOptions.id
-
-    if (__DEV__ && typeof id !== 'string') {
-      throw new Error(
-        `[🍍]: "defineStore()" must be passed a store id as its first argument.`
-      )
-    }
-  }
+  // the option store setup will contain the actual options in this case
+  options = isSetupStore ? setupOptions : setup
 
   function useStore(pinia?: Pinia | null, hot?: StoreGeneric): StoreGeneric {
     const hasContext = hasInjectionContext()

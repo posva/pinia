@@ -11,8 +11,7 @@ describe('Store', () => {
     setActivePinia(createPinia())
   })
 
-  const useStore = defineStore({
-    id: 'main',
+  const useStore = defineStore('main', {
     state: () => ({
       a: true,
       nested: {
@@ -23,7 +22,7 @@ describe('Store', () => {
   })
 
   it('reuses a store', () => {
-    const useStore = defineStore({ id: 'main' })
+    const useStore = defineStore('main', {})
     expect(useStore()).toBe(useStore())
   })
 
@@ -56,8 +55,7 @@ describe('Store', () => {
   it('works without setting the active pinia', async () => {
     setActivePinia(undefined)
     const pinia = createPinia()
-    const useStore = defineStore({
-      id: 'main',
+    const useStore = defineStore('main', {
       state: () => ({ n: 0 }),
     })
     const TestComponent = defineComponent({
@@ -100,7 +98,7 @@ describe('Store', () => {
   })
 
   it('can create an empty state if no state option is provided', () => {
-    const store = defineStore({ id: 'some' })()
+    const store = defineStore('some', {})()
 
     expect(store.$state).toEqual({})
   })
@@ -108,8 +106,7 @@ describe('Store', () => {
   it('can hydrate the state', () => {
     const pinia = createPinia()
     setActivePinia(pinia)
-    const useStore = defineStore({
-      id: 'main',
+    const useStore = defineStore('main', {
       state: () => ({
         a: true,
         nested: {
@@ -177,8 +174,7 @@ describe('Store', () => {
 
   it('should outlive components', async () => {
     const pinia = createPinia()
-    const useStore = defineStore({
-      id: 'main',
+    const useStore = defineStore('main', {
       state: () => ({ n: 0 }),
     })
 
@@ -250,7 +246,7 @@ describe('Store', () => {
 
   it('reuses stores from parent components', () => {
     let s1, s2
-    const useStore = defineStore({ id: 'one' })
+    const useStore = defineStore('one', {})
     const pinia = createPinia()
 
     const Child = defineComponent({
@@ -277,7 +273,7 @@ describe('Store', () => {
   })
 
   it('can share the same pinia in two completely different instances', async () => {
-    const useStore = defineStore({ id: 'one', state: () => ({ n: 0 }) })
+    const useStore = defineStore('one', { state: () => ({ n: 0 }) })
     const pinia = createPinia()
 
     const Comp = defineComponent({
@@ -314,10 +310,7 @@ describe('Store', () => {
 
   it('can be disposed', () => {
     const pinia = createPinia()
-    const useStore = defineStore({
-      id: 'main',
-      state: () => ({ n: 0 }),
-    })
+    const useStore = defineStore('main', { state: () => ({ n: 0 }) })
 
     const store = useStore(pinia)
     const spy = vi.fn()
@@ -341,27 +334,20 @@ describe('Store', () => {
   it('warns when state is created with a class constructor', () => {
     class MyState {}
 
-    const useMyStore = defineStore({
-      id: 'store',
-      state: () => new MyState(),
-    })
+    const useMyStore = defineStore('store', { state: () => new MyState() })
     useMyStore()
     expect(warnTextCheckPlainObject('store')).toHaveBeenWarned()
   })
 
   it('only warns about constructors when store is initially created', () => {
     class MyState {}
-    const useMyStore = defineStore({
-      id: 'arrowInit',
-      state: () => new MyState(),
-    })
+    const useMyStore = defineStore('arrowInit', { state: () => new MyState() })
     useMyStore()
     expect(warnTextCheckPlainObject('arrowInit')).toHaveBeenWarnedTimes(1)
   })
 
   it('does not warn when state is created with a plain object', () => {
-    const useMyStore = defineStore({
-      id: 'poInit',
+    const useMyStore = defineStore('poInit', {
       state: () => ({ someValue: undefined }),
     })
     useMyStore()
@@ -378,11 +364,5 @@ describe('Store', () => {
     expect(
       `[🍍]: A getter cannot have the same name as another state property. Rename one of them. Found with "anyName" in store "main".`
     ).toHaveBeenWarnedTimes(1)
-  })
-
-  it('throws an error if no store id is provided', () => {
-    expect(() => defineStore({} as any)).toThrowError(
-      /must be passed a store id/
-    )
   })
 })

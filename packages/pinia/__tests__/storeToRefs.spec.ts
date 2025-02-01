@@ -18,7 +18,6 @@ describe('storeToRefs', () => {
   it('empty state', () => {
     expect(storeToRefs(defineStore('a', {})())).toEqual({})
     expect(storeToRefs(defineStore('a', () => {})())).toEqual({})
-    expect(storeToRefs(defineStore({ id: 'a' })())).toEqual({})
   })
 
   it('plain values', () => {
