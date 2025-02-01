@@ -15,9 +15,9 @@
   },
   "dependencies": {
     "@chenfengyuan/vue-countdown": "^2.1.2",
-    "@vueuse/core": "^12.4.0",
+    "@vueuse/core": "^12.5.0",
     "pinia": "workspace:*",
-    "typedoc-vitepress-theme": "^1.1.1",
+    "typedoc-vitepress-theme": "^1.1.2",
     "vitepress": "1.5.0",
     "vitepress-translation-helper": "^0.2.2",
     "vue-use-spring": "^0.3.3"
