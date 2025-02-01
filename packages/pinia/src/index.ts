@@ -48,7 +48,6 @@ export type {
   _ExtractGettersFromSetupStore_Keys,
   _ExtractStateFromSetupStore_Keys,
   _UnwrapAll,
-  _Awaited,
 } from './types'
 export { MutationType } from './types'
 

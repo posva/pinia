@@ -158,16 +158,6 @@ export type SubscriptionCallback<S> = (
   state: UnwrapRef<S>
 ) => void
 
-// to support TS 4.4
-// TODO: remove in 2.1.0, use Awaited, and up the peer dep to TS 4.5
-export type _Awaited<T> = T extends null | undefined
-  ? T // special case for `null | undefined` when not in `--strictNullChecks` mode
-  : T extends object & { then(onfulfilled: infer F): any } // `await` only unwraps object types with a callable `then`. Non-object types are not unwrapped
-    ? F extends (value: infer V, ...args: any) => any // if the argument to `then` is callable, extracts the first argument
-      ? _Awaited<V> // recursively unwrap the value
-      : never // the argument to `then` was not callable
-    : T // non-object or non-thenable
-
 /**
  * Actual type for {@link StoreOnActionListenerContext}. Exists for refactoring
  * purposes. For internal use only.
@@ -201,7 +191,7 @@ export interface _StoreOnActionListenerContext<
    */
   after: (
     callback: A extends Record<ActionName, _Method>
-      ? (resolvedReturn: _Awaited<ReturnType<A[ActionName]>>) => void
+      ? (resolvedReturn: Awaited<ReturnType<A[ActionName]>>) => void
       : () => void
   ) => void
 
