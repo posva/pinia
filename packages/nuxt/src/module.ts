@@ -4,7 +4,6 @@
 import {
   defineNuxtModule,
   addPlugin,
-  isNuxtMajorVersion,
   addImports,
   createResolver,
   addImportsDir,
