@@ -1,3 +1,9 @@
+### [2.3.1](https://github.com/vuejs/pinia/compare/pinia@2.2.6...pinia@2.3.1) (2025-01-20)
+
+### Bug Fixes
+
+- **types:** support for Vue 2.7 ([d14e1a7](https://github.com/vuejs/pinia/commit/d14e1a723e5f19cfa89f439d2f0444cc4f5f6dfc))
+
 ## [2.3.0](https://github.com/vuejs/pinia/compare/pinia@2.2.6...pinia@2.3.0) (2024-12-04)
 
 This version requires at least Vue 2.7. On January 2025, Pinia 3.0 will drop support for Vue 2 (which already reached EOL last year). If you need support or help migrating, you can [book help with Eduardo (@posva)](https://cal.com/posva/consultancy).

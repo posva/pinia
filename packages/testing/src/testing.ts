@@ -129,7 +129,16 @@ export function createTestingPinia({
   /* istanbul ignore if */
   if (!createSpy) {
     throw new Error(
-      '[@pinia/testing]: You must configure the `createSpy` option.'
+      '[@pinia/testing]: You must configure the `createSpy` option. See https://pinia.vuejs.org/cookbook/testing.html#Specifying-the-createSpy-function'
+    )
+  } else if (
+    typeof createSpy !== 'function' ||
+    // When users pass vi.fn() instead of vi.fn
+    // https://github.com/vuejs/pinia/issues/2896
+    'mockReturnValue' in createSpy
+  ) {
+    throw new Error(
+      '[@pinia/testing]: Invalid `createSpy` option. See https://pinia.vuejs.org/cookbook/testing.html#Specifying-the-createSpy-function'
     )
   }
 

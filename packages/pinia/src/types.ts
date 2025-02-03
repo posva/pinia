@@ -474,7 +474,9 @@ export type _StoreWithGetters_Writable<G> = {
     ? K
     : // NOTE: there is still no way to have a different type for a setter and a getter in TS with dynamic keys
       // https://github.com/microsoft/TypeScript/issues/43826
-      never]: G[K] extends WritableComputedRef<infer R, infer _S> ? R : never
+      // NOTE: to support Vue 2.7, we need to use Readonly and not infer the second type param
+      // https://github.com/vuejs/pinia/issues/2767#issuecomment-2601284366
+      never]: G[K] extends Readonly<WritableComputedRef<infer R>> ? R : never
 }
 
 /**

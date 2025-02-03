@@ -127,7 +127,7 @@ You can define as many stores as you want and **you should define each store in 
 
 Once the store is instantiated, you can access any property defined in `state`, `getters`, and `actions` directly on the store. We will look at these in detail in the next pages but autocompletion will help you.
 
-Note that `store` is an object wrapped with `reactive`, meaning there is no need to write `.value` after getters but, like `props` in `setup`, **we cannot destructure it**:
+Note that `store` is an object wrapped with `reactive`, meaning there is no need to write `.value` after getters but, like any `reactive()` object in Vue, [**we lose reactivity when destructuring it**](https://vuejs.org/guide/essentials/reactivity-fundamentals.html#limitations-of-reactive):
 
 ```vue
 <script setup>
