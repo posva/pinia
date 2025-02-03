@@ -1,12 +1,87 @@
-import {
-  ComponentCustomState,
-  CustomInspectorNode,
-  CustomInspectorState,
-} from '@vue/devtools-api'
 import { MutationType, StoreGeneric } from '../types'
 import { DebuggerEvent } from 'vue'
 import { Pinia } from '../rootStore'
 import { isPinia } from './utils'
+
+// types from devtools-api
+interface StateBase {
+  key: string
+  value: any
+  editable?: boolean
+  objectType?: 'ref' | 'reactive' | 'computed' | 'other'
+  raw?: string
+}
+interface ComponentStateBase extends StateBase {
+  type: string
+}
+type ComponentBuiltinCustomStateTypes =
+  | 'function'
+  | 'map'
+  | 'set'
+  | 'reference'
+  | 'component'
+  | 'component-definition'
+  | 'router'
+  | 'store'
+interface CustomState {
+  _custom: {
+    type: ComponentBuiltinCustomStateTypes | string
+    objectType?: string
+    display?: string
+    tooltip?: string
+    value?: any
+    abstract?: boolean
+    file?: string
+    uid?: number
+    readOnly?: boolean
+    /** Configure immediate child fields */
+    fields?: {
+      abstract?: boolean
+    }
+    id?: any
+    actions?: {
+      icon: string
+      tooltip?: string
+      action: () => void | Promise<void>
+    }[]
+    /** internal */
+    _reviveId?: number
+  }
+}
+interface ComponentPropState extends ComponentStateBase {
+  meta?: {
+    type: string
+    required: boolean
+    /** Vue 1 only */
+    mode?: 'default' | 'sync' | 'once'
+  }
+}
+type ComponentState =
+  | ComponentStateBase
+  | ComponentPropState
+  | ComponentCustomState
+interface ComponentCustomState extends ComponentStateBase {
+  value: CustomState
+}
+
+interface InspectorNodeTag {
+  label: string
+  textColor: number
+  backgroundColor: number
+  tooltip?: string
+}
+interface CustomInspectorNode {
+  id: string
+  label: string
+  children?: CustomInspectorNode[]
+  tags?: InspectorNodeTag[]
+  name?: string
+  file?: string
+}
+
+interface CustomInspectorState {
+  [key: string]: (StateBase | Omit<ComponentState, 'type'>)[]
+}
 
 export function formatDisplay(display: string) {
   return {
