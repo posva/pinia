@@ -5,7 +5,7 @@ export default defineConfig({
   clean: true,
   format: ['cjs', 'esm'],
   dts: true,
-  external: ['vue-demi', 'vue', 'pinia'],
+  external: ['vue', 'pinia'],
   tsconfig: './tsconfig.build.json',
   // onSuccess: 'npm run build:fix',
 })

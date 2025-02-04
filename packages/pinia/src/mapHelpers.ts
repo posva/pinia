@@ -1,4 +1,4 @@
-import type { ComponentPublicInstance, ComputedRef, UnwrapRef } from 'vue-demi'
+import type { ComponentPublicInstance, ComputedRef, UnwrapRef } from 'vue'
 import type {
   _GettersTree,
   _StoreWithGetters_Writable,

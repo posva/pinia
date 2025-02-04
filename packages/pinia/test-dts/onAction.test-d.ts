@@ -1,7 +1,6 @@
 import { defineStore, expectType } from './'
 
-const useStore = defineStore({
-  id: 'main',
+const useStore = defineStore('main', {
   state: () => ({
     user: 'Eduardo',
   }),

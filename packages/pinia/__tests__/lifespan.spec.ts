@@ -19,8 +19,7 @@ import {
 
 describe('Store Lifespan', () => {
   function defineMyStore() {
-    return defineStore({
-      id: 'main',
+    return defineStore('main', {
       state: () => ({
         a: true,
         n: 0,
@@ -118,8 +117,7 @@ describe('Store Lifespan', () => {
     const globalWatch = vi.fn()
     const destroy = watch(() => pinia.state.value.a?.n, globalWatch)
 
-    const useStore = defineStore({
-      id: 'a',
+    const useStore = defineStore('a', {
       state: () => {
         n = n || ref(0)
         return { n }

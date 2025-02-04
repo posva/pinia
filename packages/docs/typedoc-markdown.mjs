@@ -70,7 +70,7 @@ export async function createTypeDocApp(config = {}) {
     if (project) {
       // Rendered docs
       try {
-        await app.generateDocs(project, options.out)
+        await app.generateOutputs(project)
         app.logger.info(`generated at ${options.out}.`)
       } catch (error) {
         app.logger.error(error)

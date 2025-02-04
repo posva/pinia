@@ -5,8 +5,7 @@ describe('Actions', () => {
   const useStore = () => {
     // create a new store
     setActivePinia(createPinia())
-    return defineStore({
-      id: 'main',
+    return defineStore('main', {
       state: () => ({
         a: true,
         nested: {
@@ -55,13 +54,9 @@ describe('Actions', () => {
     })()
   }
 
-  const useB = defineStore({
-    id: 'B',
-    state: () => ({ b: 'b' }),
-  })
+  const useB = defineStore('B', { state: () => ({ b: 'b' }) })
 
-  const useA = defineStore({
-    id: 'A',
+  const useA = defineStore('A', {
     state: () => ({ a: 'a' }),
     actions: {
       swap() {

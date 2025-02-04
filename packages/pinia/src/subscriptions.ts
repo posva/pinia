@@ -1,4 +1,4 @@
-import { getCurrentScope, onScopeDispose } from 'vue-demi'
+import { getCurrentScope, onScopeDispose } from 'vue'
 import { _Method } from './types'
 
 export const noop = () => {}

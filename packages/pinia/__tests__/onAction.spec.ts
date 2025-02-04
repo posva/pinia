@@ -7,8 +7,7 @@ describe('Subscriptions', () => {
   const useStore = () => {
     // create a new store
     setActivePinia(createPinia())
-    return defineStore({
-      id: 'main',
+    return defineStore('main', {
       state: () => ({
         user: 'Eduardo',
       }),
@@ -168,8 +167,7 @@ describe('Subscriptions', () => {
   })
 
   describe('multiple store instances', () => {
-    const useStore = defineStore({
-      id: 'main',
+    const useStore = defineStore('main', {
       state: () => ({
         name: 'Eduardo',
       }),

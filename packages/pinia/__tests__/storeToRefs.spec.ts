@@ -1,7 +1,6 @@
 import { describe, beforeEach, it, expect, vi } from 'vitest'
 import { computed, reactive, ref, ToRefs } from 'vue'
 import { createPinia, defineStore, setActivePinia, storeToRefs } from '../src'
-import { set } from 'vue-demi'
 
 describe('storeToRefs', () => {
   beforeEach(() => {
@@ -19,7 +18,6 @@ describe('storeToRefs', () => {
   it('empty state', () => {
     expect(storeToRefs(defineStore('a', {})())).toEqual({})
     expect(storeToRefs(defineStore('a', () => {})())).toEqual({})
-    expect(storeToRefs(defineStore({ id: 'a' })())).toEqual({})
   })
 
   it('plain values', () => {
@@ -181,11 +179,10 @@ describe('storeToRefs', () => {
     const { double } = storeToRefs(store)
 
     // Assuming HMR operation
-    set(
-      store,
-      'double',
+    // @ts-expect-error: hmr
+    store.double =
+      //
       computed(() => 1)
-    )
 
     expect(double.value).toEqual(1)
   })

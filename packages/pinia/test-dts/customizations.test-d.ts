@@ -57,8 +57,7 @@ pinia.use((context) => {
   }
 })
 
-const useStore = defineStore({
-  id: 'main',
+const useStore = defineStore('main', {
   actions: {
     one() {},
     two() {

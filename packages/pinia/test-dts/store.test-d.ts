@@ -7,8 +7,7 @@ import {
 } from './'
 import { computed, Ref, ref, UnwrapRef, watch, WritableComputedRef } from 'vue'
 
-const useStore = defineStore({
-  id: 'name',
+const useStore = defineStore('name', {
   state: () => ({ a: 'on' as 'on' | 'off', nested: { counter: 0 } }),
   getters: {
     upper: (state) => {
@@ -42,10 +41,6 @@ const useStore = defineStore({
   },
 })
 
-defineStore('name', {
-  // @ts-expect-error: id is passed as the first argument
-  id: 'name',
-})
 defineStore('name', {})
 // @ts-expect-error
 defineStore('name')
@@ -54,8 +49,7 @@ defineStore('name', {
 })
 
 // actions on not existing properties
-defineStore({
-  id: '',
+defineStore('', {
   actions: {
     a() {
       // @ts-expect-error
@@ -64,8 +58,7 @@ defineStore({
   },
 })
 
-defineStore({
-  id: '',
+defineStore('', {
   state: () => ({}),
   actions: {
     a() {
@@ -75,8 +68,7 @@ defineStore({
   },
 })
 
-defineStore({
-  id: '',
+defineStore('', {
   getters: {},
   actions: {
     a() {
@@ -113,8 +105,7 @@ const s = init()()
 s.set({ id: 1 })
 
 // getters on not existing properties
-defineStore({
-  id: '',
+defineStore('', {
   getters: {
     a(): number {
       // @ts-expect-error
@@ -129,8 +120,7 @@ defineStore({
   },
 })
 
-defineStore({
-  id: '',
+defineStore('', {
   state: () => ({}),
   getters: {
     a(): number {
@@ -174,36 +164,13 @@ store.$patch(() => {
   return
 })
 
-const useNoSAG = defineStore({
-  id: 'noSAG',
-})
-const useNoAG = defineStore({
-  id: 'noAG',
-  state: () => ({}),
-})
-const useNoSG = defineStore({
-  id: 'noAG',
-  actions: {},
-})
-const useNoSA = defineStore({
-  id: 'noAG',
-  getters: {},
-})
-const useNoS = defineStore({
-  id: 'noAG',
-  actions: {},
-  getters: {},
-})
-const useNoA = defineStore({
-  id: 'noAG',
-  state: () => ({}),
-  getters: {},
-})
-const useNoG = defineStore({
-  id: 'noAG',
-  state: () => ({}),
-  actions: {},
-})
+const useNoSAG = defineStore('noSAG', {})
+const useNoAG = defineStore('noAG', { state: () => ({}) })
+const useNoSG = defineStore('noAG', { actions: {} })
+const useNoSA = defineStore('noAG', { getters: {} })
+const useNoS = defineStore('noAG', { actions: {}, getters: {} })
+const useNoA = defineStore('noAG', { state: () => ({}), getters: {} })
+const useNoG = defineStore('noAG', { state: () => ({}), actions: {} })
 
 const noSAG = useNoSAG()
 const noSA = useNoSA()

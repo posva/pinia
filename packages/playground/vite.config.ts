@@ -1,28 +1,25 @@
 import { defineConfig, Plugin } from 'vite'
 import Vue from '@vitejs/plugin-vue'
-import { promises as fs } from 'fs'
-import path from 'path'
+import fs from 'node:fs/promises'
+import { fileURLToPath, URL } from 'node:url'
+import VueDevtools from 'vite-plugin-vue-devtools'
 
 // https://vitejs.dev/config/
 export default defineConfig({
-  plugins: [Vue(), copyPiniaPlugin()],
+  plugins: [Vue(), copyPiniaPlugin(), VueDevtools()],
   define: {
     __DEV__: 'true',
     // __BROWSER__: 'true',
     __TEST__: 'false',
   },
   resolve: {
-    // alias: {
-    //   '@vue/composition-api': 'vue-demi',
-    // },
-    dedupe: ['vue-demi', 'vue', 'pinia'],
+    dedupe: ['vue', 'pinia'],
     alias: {
-      // FIXME: use fileToUrl
-      pinia: path.resolve(__dirname, '../pinia/src/index.ts'),
+      pinia: fileURLToPath(new URL('../pinia/src/index.ts', import.meta.url)),
     },
   },
   optimizeDeps: {
-    exclude: ['vue-demi', '@vueuse/shared', '@vueuse/core', 'pinia'],
+    exclude: ['@vueuse/shared', '@vueuse/core', 'pinia'],
   },
 })
 
@@ -30,7 +27,9 @@ function copyPiniaPlugin(): Plugin {
   return {
     name: 'copy-pinia',
     async generateBundle() {
-      const filePath = path.resolve(__dirname, '../pinia/dist/pinia.mjs')
+      const filePath = fileURLToPath(
+        new URL('../pinia/dist/pinia.mjs', import.meta.url)
+      )
 
       // throws if file doesn't exist
       await fs.access(filePath)

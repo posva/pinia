@@ -1,9 +1,5 @@
-import {
-  setupDevtoolsPlugin,
-  TimelineEvent,
-  App as DevtoolsApp,
-} from '@vue/devtools-api'
-import { ComponentPublicInstance, markRaw, toRaw, unref, watch } from 'vue-demi'
+import { setupDevtoolsPlugin } from '@vue/devtools-api'
+import { App, ComponentPublicInstance, markRaw, toRaw, unref, watch } from 'vue'
 import { Pinia, PiniaPluginContext } from '../rootStore'
 import {
   _GettersTree,
@@ -37,6 +33,17 @@ const MUTATIONS_LAYER_ID = 'pinia:mutations'
 const INSPECTOR_ID = 'pinia'
 const { assign } = Object
 
+// copied from devtools
+interface TimelineEvent<TData = any, TMeta = any> {
+  time: number
+  data: TData
+  logType?: 'default' | 'warning' | 'error'
+  meta?: TMeta
+  groupId?: number | string
+  title?: string
+  subtitle?: string
+}
+
 /**
  * Gets the displayed name of a store in devtools
  *
@@ -52,7 +59,7 @@ const getStoreType = (id: string) => '🍍 ' + id
  * @param app - Vue application
  * @param pinia - pinia instance
  */
-export function registerPiniaDevtools(app: DevtoolsApp, pinia: Pinia) {
+export function registerPiniaDevtools(app: App, pinia: Pinia) {
   setupDevtoolsPlugin(
     {
       id: 'dev.esm.pinia',
@@ -140,7 +147,7 @@ export function registerPiniaDevtools(app: DevtoolsApp, pinia: Pinia) {
         ],
       })
 
-      api.on.inspectComponent((payload, ctx) => {
+      api.on.inspectComponent((payload) => {
         const proxy = (payload.componentInstance &&
           payload.componentInstance.proxy) as
           | ComponentPublicInstance
@@ -241,7 +248,7 @@ export function registerPiniaDevtools(app: DevtoolsApp, pinia: Pinia) {
         }
       })
 
-      api.on.editInspectorState((payload, ctx) => {
+      api.on.editInspectorState((payload) => {
         if (payload.app === app && payload.inspectorId === INSPECTOR_ID) {
           const inspectedStore =
             payload.nodeId === PINIA_ROOT_ID
@@ -301,7 +308,7 @@ export function registerPiniaDevtools(app: DevtoolsApp, pinia: Pinia) {
   )
 }
 
-function addStoreToDevtools(app: DevtoolsApp, store: StoreGeneric) {
+function addStoreToDevtools(app: App, store: StoreGeneric) {
   if (!componentStateTypes.includes(getStoreType(store.$id))) {
     componentStateTypes.push(getStoreType(store.$id))
   }
