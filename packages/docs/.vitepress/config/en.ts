@@ -133,6 +133,10 @@ export const enConfig: LocaleSpecificConfig<DefaultTheme.Config> = {
               link: '/cookbook/vscode-snippets.html',
             },
             {
+              text: 'Migration from v2 to v3',
+              link: '/cookbook/migration-v2-v3.html',
+            },
+            {
               text: 'Migration from v0/v1 to v2',
               link: '/cookbook/migration-v1-v2.html',
             },
