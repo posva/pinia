@@ -9,8 +9,7 @@ describe('Getters', () => {
     setActivePinia(createPinia())
   })
 
-  const useStore = defineStore({
-    id: 'main',
+  const useStore = defineStore('main', {
     state: () => ({
       name: 'Eduardo',
     }),
@@ -40,13 +39,11 @@ describe('Getters', () => {
     },
   })
 
-  const useB = defineStore({
-    id: 'B',
+  const useB = defineStore('B', {
     state: () => ({ b: 'b' }),
   })
 
-  const useA = defineStore({
-    id: 'A',
+  const useA = defineStore('A', {
     state: () => ({ a: 'a' }),
     getters: {
       fromB(): string {

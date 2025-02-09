@@ -3,9 +3,7 @@ import { getRandomJoke, Joke } from '../api/jokes'
 import { usePromise } from 'vue-promised'
 import { ref, watch } from 'vue'
 
-export const useJokes = defineStore({
-  id: 'jokes-vue-promised',
-
+export const useJokes = defineStore('jokes-vue-promised', {
   state: () => {
     const promise = ref(getRandomJoke())
 

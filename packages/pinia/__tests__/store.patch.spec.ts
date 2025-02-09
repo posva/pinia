@@ -6,8 +6,7 @@ describe('store.$patch', () => {
   const useStore = () => {
     // create a new store
     setActivePinia(createPinia())
-    return defineStore({
-      id: 'main',
+    return defineStore('main', {
       state: () => ({
         a: true,
         nested: {
@@ -22,8 +21,7 @@ describe('store.$patch', () => {
   const useArrayStore = () => {
     // create a new store
     setActivePinia(createPinia())
-    return defineStore({
-      id: 'main',
+    return defineStore('main', {
       state: () => ({
         items: [{ id: 0 }],
         currentItem: { id: 1 },
@@ -141,8 +139,7 @@ describe('store.$patch', () => {
     const useStore = (pinia?: Pinia) => {
       // create a new store
       setActivePinia(pinia || createPinia())
-      return defineStore({
-        id: 'main',
+      return defineStore('main', {
         state: () => ({
           arr: [] as any[],
           name: 'Eduardo',

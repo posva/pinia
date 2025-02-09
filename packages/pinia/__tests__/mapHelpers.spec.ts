@@ -14,8 +14,7 @@ import { nextTick, defineComponent, ref, computed } from 'vue'
 import { mockWarn } from './vitest-mock-warn'
 
 describe('Map Helpers', () => {
-  const useStore = defineStore({
-    id: 'main',
+  const useStore = defineStore('main', {
     state: () => ({
       a: true,
       n: 0,
@@ -147,8 +146,7 @@ describe('Map Helpers', () => {
   })
 
   describe('mapActions', () => {
-    const useStore = defineStore({
-      id: 'main',
+    const useStore = defineStore('main', {
       state: () => ({ n: 0 }),
       actions: {
         increment() {

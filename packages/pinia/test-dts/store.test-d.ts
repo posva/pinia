@@ -7,8 +7,7 @@ import {
 } from './'
 import { computed, Ref, ref, UnwrapRef, watch, WritableComputedRef } from 'vue'
 
-const useStore = defineStore({
-  id: 'name',
+const useStore = defineStore('name', {
   state: () => ({ a: 'on' as 'on' | 'off', nested: { counter: 0 } }),
   getters: {
     upper: (state) => {
@@ -54,8 +53,7 @@ defineStore('name', {
 })
 
 // actions on not existing properties
-defineStore({
-  id: '',
+defineStore('', {
   actions: {
     a() {
       // @ts-expect-error
@@ -64,8 +62,7 @@ defineStore({
   },
 })
 
-defineStore({
-  id: '',
+defineStore('', {
   state: () => ({}),
   actions: {
     a() {
@@ -75,8 +72,7 @@ defineStore({
   },
 })
 
-defineStore({
-  id: '',
+defineStore('', {
   getters: {},
   actions: {
     a() {
@@ -113,8 +109,7 @@ const s = init()()
 s.set({ id: 1 })
 
 // getters on not existing properties
-defineStore({
-  id: '',
+defineStore('', {
   getters: {
     a(): number {
       // @ts-expect-error
@@ -129,8 +124,7 @@ defineStore({
   },
 })
 
-defineStore({
-  id: '',
+defineStore('', {
   state: () => ({}),
   getters: {
     a(): number {
@@ -174,33 +168,25 @@ store.$patch(() => {
   return
 })
 
-const useNoSAG = defineStore({
-  id: 'noSAG',
-})
-const useNoAG = defineStore({
-  id: 'noAG',
+const useNoSAG = defineStore('noSAG', {})
+const useNoAG = defineStore('noAG', {
   state: () => ({}),
 })
-const useNoSG = defineStore({
-  id: 'noAG',
+const useNoSG = defineStore('noAG', {
   actions: {},
 })
-const useNoSA = defineStore({
-  id: 'noAG',
+const useNoSA = defineStore('noAG', {
   getters: {},
 })
-const useNoS = defineStore({
-  id: 'noAG',
+const useNoS = defineStore('noAG', {
   actions: {},
   getters: {},
 })
-const useNoA = defineStore({
-  id: 'noAG',
+const useNoA = defineStore('noAG', {
   state: () => ({}),
   getters: {},
 })
-const useNoG = defineStore({
-  id: 'noAG',
+const useNoG = defineStore('noAG', {
   state: () => ({}),
   actions: {},
 })

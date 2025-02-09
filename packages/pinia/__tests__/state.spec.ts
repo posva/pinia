@@ -151,8 +151,7 @@ describe('State', () => {
 
     const pinia = createPinia()
     setActivePinia(pinia)
-    const useStore = defineStore({
-      id: 'main',
+    const useStore = defineStore('main', {
       state: () => ({
         name,
         counter,
