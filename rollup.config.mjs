@@ -29,7 +29,7 @@ function getAuthors(pkg) {
   const { contributors, author } = pkg
 
   const authors = new Set()
-  if (contributors && contributors)
+  if (contributors)
     contributors.forEach((contributor) => {
       authors.add(contributor.name)
     })
