@@ -405,14 +405,6 @@ export interface _StoreWithState<
    * store is used again, it will reuse the previous state.
    */
   $dispose(): void
-
-  /**
-   * Vue 2 only. Is the store ready. Used for store cross usage. Getters automatically compute when they are added to
-   * the store, before the store is actually ready, this allows to avoid calling the computed function yet.
-   *
-   * @internal
-   */
-  _r?: boolean
 }
 
 /**
@@ -464,8 +456,6 @@ export type _StoreWithGetters_Writable<G> = {
     ? K
     : // NOTE: there is still no way to have a different type for a setter and a getter in TS with dynamic keys
       // https://github.com/microsoft/TypeScript/issues/43826
-      // NOTE: to support Vue 2.7, we need to use Readonly and not infer the second type param
-      // https://github.com/vuejs/pinia/issues/2767#issuecomment-2601284366
       never]: G[K] extends Readonly<WritableComputedRef<infer R>> ? R : never
 }
 
