@@ -49,6 +49,10 @@ export const enConfig: LocaleSpecificConfig<DefaultTheme.Config> = {
           },
         ],
       },
+      {
+        text: 'v2.x',
+        items: [{ text: 'v3.x', link: 'https://pinia.vuejs.org' }],
+      },
     ],
 
     sidebar: {
