@@ -47,11 +47,11 @@ export const enConfig: LocaleSpecificConfig<DefaultTheme.Config> = {
             text: 'Vue.js Certification',
             link: 'https://certificates.dev/vuejs/?friend=VUEROUTER&utm_source=pinia_vuejs&utm_medium=link&utm_campaign=pinia_vuejs_links&utm_content=navbar',
           },
-          {
-            text: 'v3.x',
-            items: [{ text: 'v2.x', link: 'https://v2.pinia.vuejs.org' }],
-          },
         ],
+      },
+      {
+        text: 'v3.x',
+        items: [{ text: 'v2.x', link: 'https://v2.pinia.vuejs.org' }],
       },
     ],
 
