@@ -58,6 +58,10 @@ export const zhConfig: LocaleSpecificConfig<DefaultTheme.Config> = {
           },
         ],
       },
+      {
+        text: 'v3.x',
+        items: [{ text: 'v2.x', link: 'https://v2.pinia.vuejs.org' }],
+      },
     ],
     sidebar: {
       '/zh/api/': [
