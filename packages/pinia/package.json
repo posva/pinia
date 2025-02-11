@@ -2,7 +2,8 @@
   "name": "pinia",
   "version": "2.3.1",
   "description": "Intuitive, type safe and flexible Store for Vue",
-  "main": "index.js",
+  "type": "module",
+  "main": "index.cjs",
   "module": "dist/pinia.mjs",
   "unpkg": "dist/pinia.iife.js",
   "jsdelivr": "dist/pinia.iife.js",
@@ -19,14 +20,13 @@
         "require": {
           "production": "./dist/pinia.prod.cjs",
           "development": "./dist/pinia.cjs",
-          "default": "./index.js"
+          "default": "./index.cjs"
         }
       },
       "import": "./dist/pinia.mjs",
-      "require": "./index.js"
+      "require": "./index.cjs"
     },
-    "./package.json": "./package.json",
-    "./dist/*": "./dist/*"
+    "./package.json": "./package.json"
   },
   "sideEffects": false,
   "author": {
@@ -46,7 +46,6 @@
     "dist/*.mjs",
     "dist/*.cjs",
     "dist/pinia.d.ts",
-    "index.js",
     "index.cjs",
     "LICENSE",
     "README.md"
