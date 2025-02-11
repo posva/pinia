@@ -128,7 +128,7 @@ export const sharedConfig = defineConfig({
     },
 
     editLink: {
-      pattern: 'https://github.com/vuejs/pinia/edit/v2/packages/docs/:path',
+      pattern: 'https://github.com/vuejs/pinia/edit/v3/packages/docs/:path',
       text: 'Suggest changes',
     },
 
