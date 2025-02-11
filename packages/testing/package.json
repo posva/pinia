@@ -1,6 +1,6 @@
 {
   "name": "@pinia/testing",
-  "version": "0.1.7",
+  "version": "1.0.0",
   "description": "Testing module for Pinia",
   "keywords": [
     "vue",
@@ -48,7 +48,7 @@
     "tsup": "^8.3.6"
   },
   "peerDependencies": {
-    "pinia": ">=2.2.6"
+    "pinia": ">=3.0.0"
   },
   "publishConfig": {
     "access": "public"
