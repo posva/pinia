@@ -21,7 +21,6 @@ import {
   ref,
   set,
   del,
-  nextTick,
   isVue2,
 } from 'vue-demi'
 import {
@@ -256,7 +255,7 @@ function createSetupStore<
       if (isListening) {
         debuggerEvents = event
         // avoid triggering this while the store is being built and the state is being set in pinia
-      } else if (isListening == false && !store._hotUpdating) {
+      } else if (isListening === false && !store._hotUpdating) {
         // let patch send all the events together later
         /* istanbul ignore else */
         if (Array.isArray(debuggerEvents)) {
@@ -271,8 +270,8 @@ function createSetupStore<
   }
 
   // internal state
-  let isListening: boolean // set to true at the end
-  let isSyncListening: boolean // set to true at the end
+  let isListening = false // set to true at the end
+  let shouldTrigger = false // The initial value does not matter, and no need to set to true at the end
   let subscriptions: SubscriptionCallback<S>[] = []
   let actionSubscriptions: StoreOnActionListener<Id, S, G, A>[] = []
   let debuggerEvents: DebuggerEvent[] | DebuggerEvent
@@ -291,9 +290,6 @@ function createSetupStore<
 
   const hotState = ref({} as S)
 
-  // avoid triggering too many listeners
-  // https://github.com/vuejs/pinia/issues/1129
-  let activeListener: Symbol | undefined
   function $patch(stateMutation: (state: UnwrapRef<S>) => void): void
   function $patch(partialState: _DeepPartial<UnwrapRef<S>>): void
   function $patch(
@@ -302,7 +298,7 @@ function createSetupStore<
       | ((state: UnwrapRef<S>) => void)
   ): void {
     let subscriptionMutation: SubscriptionCallbackMutation<S>
-    isListening = isSyncListening = false
+    isListening = false
     // reset the debugger events since patches are sync
     /* istanbul ignore else */
     if (__DEV__) {
@@ -324,13 +320,7 @@ function createSetupStore<
         events: debuggerEvents as DebuggerEvent[],
       }
     }
-    const myListenerId = (activeListener = Symbol())
-    nextTick().then(() => {
-      if (activeListener === myListenerId) {
-        isListening = true
-      }
-    })
-    isSyncListening = true
+    isListening = true
     // because we paused the watcher, we need to manually call the subscriptions
     triggerSubscriptions(
       subscriptions,
@@ -454,11 +444,19 @@ function createSetupStore<
         options.detached,
         () => stopWatcher()
       )
-      const stopWatcher = scope.run(() =>
-        watch(
+      const stopWatcher = scope.run(() => {
+        const stop1 = watch(
+          () => pinia.state.value[$id],
+          () => {
+            shouldTrigger = isListening
+          },
+          { deep: true, flush: 'sync' }
+        )
+
+        const stop2 = watch(
           () => pinia.state.value[$id] as UnwrapRef<S>,
           (state) => {
-            if (options.flush === 'sync' ? isSyncListening : isListening) {
+            if (shouldTrigger) {
               callback(
                 {
                   storeId: $id,
@@ -471,7 +469,14 @@ function createSetupStore<
           },
           assign({}, $subscribeOptions, options)
         )
-      )!
+
+        const stop = () => {
+          stop1()
+          stop2()
+        }
+
+        return stop
+      })!
 
       return removeSubscription
     },
@@ -647,12 +652,8 @@ function createSetupStore<
 
       // avoid devtools logging this as a mutation
       isListening = false
-      isSyncListening = false
       pinia.state.value[$id] = toRef(newStore._hmrPayload, 'hotState')
-      isSyncListening = true
-      nextTick().then(() => {
-        isListening = true
-      })
+      isListening = true
 
       for (const actionName in newStore._hmrPayload.actions) {
         const actionFn: _Method = newStore[actionName]
@@ -779,7 +780,6 @@ function createSetupStore<
   }
 
   isListening = true
-  isSyncListening = true
   return store
 }
 
