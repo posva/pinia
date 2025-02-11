@@ -152,6 +152,13 @@ describe('SSR', () => {
     expect(store.$state).toEqual({ start: 'start' })
   })
 
+  it('accepts a store with no null state', () => {
+    const pinia = createPinia()
+    pinia.state.value.a = Object.create(null)
+    const store = defineStore('a', {})(pinia)
+    expect(store.$state).toEqual({})
+  })
+
   describe('Setup Store', () => {
     const useStore = defineStore('main', () => {
       const count = ref(0)
