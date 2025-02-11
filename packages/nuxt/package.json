@@ -9,7 +9,7 @@
     "vuex",
     "store"
   ],
-  "homepage": "https://github.com/vuejs/pinia/tree/v2/packages/nuxt#readme",
+  "homepage": "https://github.com/vuejs/pinia/tree/v3/packages/nuxt#readme",
   "bugs": {
     "url": "https://github.com/vuejs/pinia/issues"
   },

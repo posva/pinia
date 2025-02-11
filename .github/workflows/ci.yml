@@ -6,7 +6,7 @@ on:
       - 'packages/docs/**'
       - 'packages/playground/**'
   pull_request:
-    branches: [v2]
+    branches: [v2, v3]
     paths-ignore:
       - 'packages/docs/**'
       - 'packages/playground/**'
