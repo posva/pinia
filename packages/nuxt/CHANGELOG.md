@@ -1,3 +1,10 @@
+### [0.10.1](https://github.com/vuejs/pinia/compare/@pinia/nuxt@0.10.0...@pinia/nuxt@0.10.1) (2025-02-12)
+
+### Bug Fixes
+
+- avoid including devtools code in builds ([d3b24a3](https://github.com/vuejs/pinia/commit/d3b24a3d6a4b5af82c8ef7e66e4cecd890c30fdd)), closes [#2910](https://github.com/vuejs/pinia/issues/2910)
+- **nuxt:** usePinia composable type ([#2890](https://github.com/vuejs/pinia/issues/2890)) ([a32fb3b](https://github.com/vuejs/pinia/commit/a32fb3b9d61c58b56716931fef351fae1b479ff8))
+
 ## [0.10.0](https://github.com/vuejs/pinia/compare/@pinia/nuxt@0.9.0...@pinia/nuxt@0.10.0) (2025-02-11)
 
 This version requires Vue 3.0 and Pinia 3.0. See the [migration guide](https://pinia.vuejs.org/cookbook/migration-v2-v3.html) for more information.

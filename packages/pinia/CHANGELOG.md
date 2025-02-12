@@ -1,3 +1,9 @@
+### [3.0.1](https://github.com/vuejs/pinia/compare/pinia@2.2.6...pinia@3.0.1) (2025-02-12)
+
+### Bug Fixes
+
+- avoid including devtools code in builds ([d3b24a3](https://github.com/vuejs/pinia/commit/d3b24a3d6a4b5af82c8ef7e66e4cecd890c30fdd)), closes [#2910](https://github.com/vuejs/pinia/issues/2910)
+
 ## [3.0.0](https://github.com/vuejs/pinia/compare/pinia@2.2.6...pinia@3.0.0) (2025-02-11)
 
 This version of Pinia has no new features, it drops support for Vue 2 and other deprecated APIs. It should be an straightforward upgrade for most users! 🎉
