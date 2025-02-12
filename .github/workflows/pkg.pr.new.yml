@@ -2,40 +2,40 @@ name: Publish Any Commit
 
 on:
   pull_request:
-    branches: v2
+    branches: [v2, v3]
     paths-ignore:
-    - 'packages/docs/**'
-    - 'packages/playground/**'
+      - 'packages/docs/**'
+      - 'packages/playground/**'
 
   push:
     branches:
-    - '**'
+      - '**'
     tags:
-    - '!**'
+      - '!**'
     paths-ignore:
-    - 'packages/docs/**'
-    - 'packages/playground/**'
+      - 'packages/docs/**'
+      - 'packages/playground/**'
 
 jobs:
   build:
     runs-on: ubuntu-latest
 
     steps:
-    - name: Checkout code
-      uses: actions/checkout@v4
-      with:
-        fetch-depth: 0
-    - uses: pnpm/action-setup@v4
-    - uses: actions/setup-node@v4
-      with:
-        node-version: lts/*
-        cache: pnpm
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: pnpm/action-setup@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: lts/*
+          cache: pnpm
 
-    - name: Install
-      run: pnpm install --frozen-lockfile
+      - name: Install
+        run: pnpm install --frozen-lockfile
 
-    - name: Build
-      run: pnpm build
+      - name: Build
+        run: pnpm build
 
-    - name: Release
-      run: pnpm dlx pkg-pr-new publish --compact --pnpm './packages/*'
+      - name: Release
+        run: pnpm dlx pkg-pr-new publish --compact --pnpm './packages/*'

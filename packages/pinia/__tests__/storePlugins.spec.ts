@@ -194,7 +194,6 @@ describe('store plugins', () => {
 
   it('passes the options of the options store', async () => {
     const options = {
-      id: 'main',
       state: () => ({ n: 0 }),
       actions: {
         increment() {
@@ -208,7 +207,7 @@ describe('store plugins', () => {
         },
       },
     }
-    const useStore = defineStore(options)
+    const useStore = defineStore('main', options)
     const pinia = createPinia()
     mount({ template: 'none' }, { global: { plugins: [pinia] } })
 

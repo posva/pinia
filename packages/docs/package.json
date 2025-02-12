@@ -4,6 +4,7 @@
   "private": true,
   "type": "module",
   "scripts": {
+    "predocs": "node run-typedoc.mjs",
     "docs": "vitepress dev .",
     "docs:api": "node run-typedoc.mjs",
     "docs:translation:compare": "v-translation compare",
@@ -14,10 +15,11 @@
   },
   "dependencies": {
     "@chenfengyuan/vue-countdown": "^2.1.2",
-    "@vueuse/core": "^11.2.0",
+    "@vueuse/core": "^12.5.0",
     "pinia": "workspace:*",
-    "vitepress": "1.5.0",
-    "vitepress-translation-helper": "^0.2.1",
+    "typedoc-vitepress-theme": "^1.1.2",
+    "vitepress": "1.6.3",
+    "vitepress-translation-helper": "^0.2.2",
     "vue-use-spring": "^0.3.3"
   }
 }

@@ -5,14 +5,14 @@
 This is the list of versions of Pinia which are
 currently being supported with security updates.
 
-| Version            | Supported          |
-| ------------------ | ------------------ |
-| 2.1.x              | :white_check_mark: |
-| &lt;2.1         | :x:                |
+| Version   | Supported          |
+| --------- | ------------------ |
+| 2.2.x     | :white_check_mark: |
+| &lt;2.2.0 | :x:                |
 
 ## Reporting a Vulnerability
 
-To report a vulnerability, please email the details to posva13@gmail.com.
+To report a vulnerability, please email the details to <posva13@gmail.com>.
 
 When a vulnerability is reported, it immediately becomes our top concern, with a full-time contributor dropping everything to work on it.
 

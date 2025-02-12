@@ -1,14 +1,17 @@
 blank_issues_enabled: false
 contact_links:
-  - name: Question
-    url: https://github.com/vuejs/pinia/discussions/new?category=Q-A
-    about: Ask a question or discuss about Pinia
-  - name: Paid consultation
+  - name: 👨‍💻 Support
     url: https://cal.com/posva/consultancy
     about: Get direct help from the author of Pinia with your project
-  - name: Ideas
+  - name: 🔧 Vue 2 Official Support
+    url: https://cal.com/posva/consultancy
+    about: Is your project still on Vue 2? Get official support
+  - name: ❓ Questions
+    url: https://github.com/vuejs/pinia/discussions/new?category=Q-A
+    about: Ask a question or discuss about Pinia
+  - name: 💡 Ideas
     url: https://github.com/vuejs/pinia/discussions/new?category=Ideas
     about: Start a discussion to improve Pinia
-  - name: GitHub Sponsors
+  - name: 🌟 GitHub Sponsors
     url: https://github.com/sponsors/posva
     about: Like this project? Please consider supporting the author.

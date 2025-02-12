@@ -1,6 +1,6 @@
 {
   "name": "@pinia/testing",
-  "version": "0.1.7",
+  "version": "1.0.0",
   "description": "Testing module for Pinia",
   "keywords": [
     "vue",
@@ -11,7 +11,7 @@
     "mock",
     "testing"
   ],
-  "homepage": "https://github.com/vuejs/pinia/tree/v2/packages/testing#readme",
+  "homepage": "https://github.com/vuejs/pinia/tree/v3/packages/testing#readme",
   "bugs": {
     "url": "https://github.com/vuejs/pinia/issues"
   },
@@ -43,15 +43,12 @@
     "build": "tsup",
     "changelog": "conventional-changelog -p angular -i CHANGELOG.md -s --commit-path . -l @pinia/testing -r 1"
   },
-  "dependencies": {
-    "vue-demi": "^0.14.10"
-  },
   "devDependencies": {
     "pinia": "workspace:*",
-    "tsup": "^8.3.5"
+    "tsup": "^8.3.6"
   },
   "peerDependencies": {
-    "pinia": ">=2.2.6"
+    "pinia": ">=3.0.0"
   },
   "publishConfig": {
     "access": "public"

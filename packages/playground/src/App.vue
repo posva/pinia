@@ -40,11 +40,11 @@ const pages = router
 
 const sourceCodeLink = computed(() => {
   if (route.name) {
-    return `https://github.com/vuejs/pinia/blob/v2/packages/playground/src/views/${String(
+    return `https://github.com/vuejs/pinia/blob/v3/packages/playground/src/views/${String(
       route.name
     )}.vue`
   } else {
-    return `https://github.com/vuejs/pinia/blob/v2/packages/playground/src/`
+    return `https://github.com/vuejs/pinia/blob/v3/packages/playground/src/`
   }
 })
 </script>

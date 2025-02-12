@@ -1,4 +1,4 @@
-import { defineConfig, Plugin } from 'vite'
+import { defineConfig, type Plugin } from 'vite'
 import _fs from 'fs'
 import path from 'path'
 // import TypeDocPlugin from './vite-typedoc-plugin'
@@ -24,7 +24,7 @@ export default defineConfig({
     __BROWSER__: 'true',
   },
   optimizeDeps: {
-    exclude: ['vue-demi', '@vueuse/shared', '@vueuse/core', 'pinia'],
+    exclude: ['@vueuse/shared', '@vueuse/core', 'pinia'],
   },
 })
 

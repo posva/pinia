@@ -1,4 +1,41 @@
-### [2.2.8](https://github.com/vuejs/pinia/compare/pinia@2.2.6...pinia@2.2.8) (2024-11-28)
+## [3.0.0](https://github.com/vuejs/pinia/compare/pinia@2.2.6...pinia@3.0.0) (2025-02-11)
+
+This version of Pinia has no new features, it drops support for Vue 2 and other deprecated APIs. It should be an straightforward upgrade for most users! 🎉
+
+See the [migration guide](https://pinia.vuejs.org/cookbook/migration-v2-v3.html) for help.
+
+### ⚠ BREAKING CHANGES
+
+- We now use the native `Awaited` introduced in TS 4.5, so you need at least TS 4.5 to use Pinia 3.0. That being said, it's always better to have an up to date version of TS.
+- `PiniaStorePlugin` is now removed. Use `PiniaPlugin` instead.
+- `defineStore({ id: 'id' })` is now removed. Use `defineStore('id')` instead
+- Pinia is now published as a `type: module` package but it still provides CJS versions dist files
+
+### Code Refactoring
+
+- remove deprecated aliases ([87c6182](https://github.com/vuejs/pinia/commit/87c6182c4bf61e1f96a4877eb884fd59cf824e1f))
+- remove internal type `_Awaited` ([ce48ec4](https://github.com/vuejs/pinia/commit/ce48ec46e0d7626eeefa0ee9c4e8c6b65fce31e1))
+- remove support for `id` as a property in `defineStore` ([24b2b89](https://github.com/vuejs/pinia/commit/24b2b89c7be4ffda8b6fbc35155757f5780971d8))
+
+### [2.3.1](https://github.com/vuejs/pinia/compare/pinia@2.2.6...pinia@2.3.1) (2025-01-20)
+
+### Bug Fixes
+
+- **types:** support for Vue 2.7 ([d14e1a7](https://github.com/vuejs/pinia/commit/d14e1a723e5f19cfa89f439d2f0444cc4f5f6dfc))
+
+## [2.3.0](https://github.com/vuejs/pinia/compare/pinia@2.2.6...pinia@2.3.0) (2024-12-04)
+
+This version requires at least Vue 2.7. On January 2025, Pinia 3.0 will drop support for Vue 2 (which already reached EOL last year). If you need support or help migrating, you can [book help with Eduardo (@posva)](https://cal.com/posva/consultancy).
+
+### Features
+
+- writable `computed`s to be picked up by `mapWritableState` ([#2847](https://github.com/vuejs/pinia/issues/2847)) ([0fa633e](https://github.com/vuejs/pinia/commit/0fa633e81864b09d300859a0ed1c10d2a89affa8))
+
+### Bug Fixes
+
+- avoid npm bug when resolving optional deps ([#2841](https://github.com/vuejs/pinia/issues/2841)) ([1e45f33](https://github.com/vuejs/pinia/commit/1e45f332efe8c0f543cfd186cd26b768abdf2b62))
+
+## [2.2.8](https://github.com/vuejs/pinia/compare/pinia@2.2.6...pinia@2.2.8) (2024-11-28)
 
 ### Features
 
@@ -9,13 +46,7 @@
 - avoid immediate computing with `storeToRefs` ([67d3109](https://github.com/vuejs/pinia/commit/67d31094784cc3bd256b0636b79dc8e421f6c3fb)), closes [#2812](https://github.com/vuejs/pinia/issues/2812)
 - **types:** unwrap refs in `mapWritableState` for setup stores ([#2805](https://github.com/vuejs/pinia/issues/2805)) ([ea14e53](https://github.com/vuejs/pinia/commit/ea14e53fdfc0d0f4cd80d5242572f87714a77e3b)), closes [#2804](https://github.com/vuejs/pinia/issues/2804)
 
-### 2.2.7 (2024-11-27)
-
-### Bug Fixes
-
-- **devtools:** avoid running outside of browsers ([eb5e6fd](https://github.com/vuejs/pinia/commit/eb5e6fd6073da8e828a9087c876d0e8fde3cdb3d)), closes [#2843](https://github.com/vuejs/pinia/issues/2843)
-
-### [2.2.7](https://github.com/vuejs/pinia/compare/pinia@2.2.6...pinia@2.2.7) (2024-11-27)
+## [2.2.7](https://github.com/vuejs/pinia/compare/pinia@2.2.6...pinia@2.2.7) (2024-11-27)
 
 ### Bug Fixes
 

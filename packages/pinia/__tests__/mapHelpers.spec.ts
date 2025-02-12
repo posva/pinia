@@ -10,12 +10,11 @@ import {
   setMapStoreSuffix,
 } from '../src'
 import { mount } from '@vue/test-utils'
-import { nextTick, defineComponent } from 'vue'
+import { nextTick, defineComponent, ref, computed } from 'vue'
 import { mockWarn } from './vitest-mock-warn'
 
 describe('Map Helpers', () => {
-  const useStore = defineStore({
-    id: 'main',
+  const useStore = defineStore('main', {
     state: () => ({
       a: true,
       n: 0,
@@ -147,8 +146,7 @@ describe('Map Helpers', () => {
   })
 
   describe('mapActions', () => {
-    const useStore = defineStore({
-      id: 'main',
+    const useStore = defineStore('main', {
       state: () => ({ n: 0 }),
       actions: {
         increment() {
@@ -243,6 +241,28 @@ describe('Map Helpers', () => {
         `{{ count }} {{ myA }}`,
         `0 true`,
         'replaced replaced'
+      )
+    })
+
+    it('setup store', async () => {
+      const useSetupStore = defineStore('setup', () => {
+        const text = ref('initial')
+
+        const textUpper = computed({
+          get: () => text.value.toUpperCase(),
+          set: (v) => {
+            text.value = v
+          },
+        })
+
+        return { text, textUpper }
+      })
+
+      await testComponent(
+        mapWritableState(useSetupStore, ['text', 'textUpper']),
+        `{{ text }} {{ textUpper }}`,
+        `initial INITIAL`,
+        'replaced REPLACED'
       )
     })
   })

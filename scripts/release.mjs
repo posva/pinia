@@ -46,9 +46,24 @@ Flags:
 // const preId =
 //   args.preId ||
 //   (semver.prerelease(currentVersion) && semver.prerelease(currentVersion)[0])
-const EXPECTED_BRANCH = 'v2'
+const EXPECTED_BRANCH = 'v3'
 // this package will use tags like v1.0.0 while the rest will use the full package name like @pinia/testing@1.0.0
 const MAIN_PKG_NAME = 'pinia'
+// whether the main package is at the root of the mono repo or this is not a mono repo
+const IS_MAIN_PKG_ROOT = false
+// array of folders of packages to release
+const PKG_FOLDERS = [
+  // comment for multiline format
+  join(__dirname, '../packages/pinia'),
+  join(__dirname, '../packages/testing'),
+  join(__dirname, '../packages/nuxt'),
+]
+// files to add and commit after building a new version
+const FILES_TO_COMMIT = [
+  // comment for multiline format
+  'packages/*/package.json',
+  'packages/*/CHANGELOG.md',
+]
 
 /**
  * @type {typeof execa}
@@ -60,7 +75,7 @@ const run = (bin, args, opts = {}) =>
  * @param args {string[]}
  * @param opts {import('execa').Options}
  */
-const dryRun = (bin, args, opts = {}) =>
+const dryRun = async (bin, args, opts = {}) =>
   console.log(chalk.blue(`[dry-run] ${bin} ${args.join(' ')}`), opts)
 const runIfNotDry = isDryRun ? dryRun : run
 
@@ -112,13 +127,7 @@ async function main() {
     }
   }
 
-  const packagesFolders = [
-    join(__dirname, '../packages/pinia'),
-    join(__dirname, '../packages/testing'),
-    join(__dirname, '../packages/nuxt'),
-  ]
-
-  const changedPackages = await getChangedPackages(...packagesFolders)
+  const changedPackages = await getChangedPackages(...PKG_FOLDERS)
 
   if (!changedPackages.length) {
     console.log(chalk.red(`No packages have changed since last release`))
@@ -129,24 +138,29 @@ async function main() {
     console.log(`\n${chalk.bold.blue('This is a dry run')}\n`)
   }
 
-  // allow to select which packages
-  const { pickedPackages } = await prompts({
-    type: 'multiselect',
-    name: 'pickedPackages',
-    message: 'What packages do you want to release?',
-    instructions: false,
-    min: 1,
-    choices: changedPackages.map((pkg) => ({
-      title: pkg.name,
-      value: pkg.name,
-      selected: true,
-    })),
-  })
+  let packagesToRelease = changedPackages
 
-  // const packagesToRelease = changedPackages
-  const packagesToRelease = changedPackages.filter((pkg) =>
-    pickedPackages.includes(pkg.name)
-  )
+  // if there are more than one package, ask which ones to release
+  if (packagesToRelease.length > 1) {
+    // allow to select which packages
+    const { pickedPackages } = await prompts({
+      type: 'multiselect',
+      name: 'pickedPackages',
+      message: 'What packages do you want to release?',
+      instructions: false,
+      min: 1,
+      choices: changedPackages.map((pkg) => ({
+        title: pkg.name,
+        value: pkg.name,
+        selected: true,
+      })),
+    })
+
+    // const packagesToRelease = changedPackages
+    packagesToRelease = changedPackages.filter((pkg) =>
+      pickedPackages.includes(pkg.name)
+    )
+  }
 
   step(
     `Ready to release ${packagesToRelease.map(({ name }) => chalk.bold.white(name)).join(', ')}`
@@ -271,8 +285,9 @@ async function main() {
           changelogExists ? '1' : '0',
           '--commit-path',
           '.',
-          '--lerna-package',
-          pkg.name,
+          ...(pkg.name === MAIN_PKG_NAME && IS_MAIN_PKG_ROOT
+            ? []
+            : ['--lerna-package', pkg.name]),
           ...(pkg.name === MAIN_PKG_NAME
             ? []
             : ['--tag-prefix', `${pkg.name}@`]),
@@ -312,11 +327,7 @@ async function main() {
   const { stdout } = await run('git', ['diff'], { stdio: 'pipe' })
   if (stdout) {
     step('\nCommitting changes...')
-    await runIfNotDry('git', [
-      'add',
-      'packages/*/CHANGELOG.md',
-      'packages/*/package.json',
-    ])
+    await runIfNotDry('git', ['add', ...FILES_TO_COMMIT])
     await runIfNotDry('git', [
       'commit',
       '-m',

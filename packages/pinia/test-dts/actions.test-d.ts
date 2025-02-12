@@ -1,7 +1,6 @@
 import { defineStore, expectType } from './'
 
-const useStore = defineStore({
-  id: 'name',
+const useStore = defineStore('name', {
   state: () => ({ count: 0 }),
   actions: {
     useOtherAction() {

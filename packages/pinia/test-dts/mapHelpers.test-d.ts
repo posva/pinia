@@ -9,8 +9,7 @@ import {
 import { describe, it, expectTypeOf } from 'vitest'
 
 describe('mapHelpers', () => {
-  const useOptionsStore = defineStore({
-    id: 'name',
+  const useOptionsStore = defineStore('name', {
     state: () => ({ a: 'on' as 'on' | 'off', nested: { counter: 0 } }),
     getters: {
       upper: (state) => state.a.toUpperCase(),
@@ -29,24 +28,22 @@ describe('mapHelpers', () => {
   const useSetupStore = defineStore('setupStore', () => {
     const a = ref('on' as 'on' | 'off')
     const upper = computed(() => a.value.toUpperCase())
+    const writableUpper = computed({
+      get: () => a.value.toUpperCase(),
+      set: (v: 'on' | 'off') => (a.value = v),
+    })
     function toggleA() {
       a.value = a.value === 'off' ? 'on' : 'off'
     }
     function setToggle(aVal: 'on' | 'off') {
       return (a.value = aVal)
     }
-    return { a, upper, toggleA, setToggle }
+    return { a, upper, writableUpper, toggleA, setToggle }
   })
 
-  const useCounter = defineStore({
-    id: 'counter',
-    state: () => ({ n: 0 }),
-  })
+  const useCounter = defineStore('counter', { state: () => ({ n: 0 }) })
 
-  const useStoreDos = defineStore({
-    id: 'dos',
-    state: () => ({}),
-  })
+  const useStoreDos = defineStore('dos', { state: () => ({}) })
 
   type MainStore = ReturnType<typeof useOptionsStore>
   type DosStore = ReturnType<typeof useStoreDos>
@@ -161,6 +158,13 @@ describe('mapHelpers', () => {
           set: (v: 'on' | 'off') => any
         }
       }>(mapWritableState(useSetupStore, ['a']))
+
+      expectTypeOf<{
+        writableUpper: {
+          get: () => string
+          set: (v: 'on' | 'off') => any
+        }
+      }>(mapWritableState(useSetupStore, ['writableUpper']))
     })
   })
 })

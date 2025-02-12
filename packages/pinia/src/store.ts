@@ -19,11 +19,8 @@ import {
   toRefs,
   Ref,
   ref,
-  set,
-  del,
   nextTick,
-  isVue2,
-} from 'vue-demi'
+} from 'vue'
 import {
   StateTree,
   SubscriptionCallback,
@@ -117,7 +114,6 @@ function mergeReactiveObjects<
 const skipHydrateSymbol = __DEV__
   ? Symbol('pinia:skipHydration')
   : /* istanbul ignore next */ Symbol()
-const skipHydrateMap = /*#__PURE__*/ new WeakMap<any, any>()
 
 /**
  * Tells Pinia to skip the hydration process of a given object. This is useful in setup stores (only) when you return a
@@ -127,10 +123,7 @@ const skipHydrateMap = /*#__PURE__*/ new WeakMap<any, any>()
  * @returns obj
  */
 export function skipHydrate<T = any>(obj: T): T {
-  return isVue2
-    ? // in @vue/composition-api, the refs are sealed so defineProperty doesn't work...
-      /* istanbul ignore next */ skipHydrateMap.set(obj, 1) && obj
-    : Object.defineProperty(obj, skipHydrateSymbol, {})
+  return Object.defineProperty(obj, skipHydrateSymbol, {})
 }
 
 /**
@@ -140,9 +133,7 @@ export function skipHydrate<T = any>(obj: T): T {
  * @returns true if `obj` should be hydrated
  */
 export function shouldHydrate(obj: any) {
-  return isVue2
-    ? /* istanbul ignore next */ !skipHydrateMap.has(obj)
-    : !isPlainObject(obj) || !obj.hasOwnProperty(skipHydrateSymbol)
+  return !isPlainObject(obj) || !obj.hasOwnProperty(skipHydrateSymbol)
 }
 
 const { assign } = Object
@@ -172,11 +163,7 @@ function createOptionsStore<
   function setup() {
     if (!initialState && (!__DEV__ || !hot)) {
       /* istanbul ignore if */
-      if (isVue2) {
-        set(pinia.state.value, id, state ? state() : {})
-      } else {
-        pinia.state.value[id] = state ? state() : {}
-      }
+      pinia.state.value[id] = state ? state() : {}
     }
 
     // avoid creating a state in pinia.state.value
@@ -204,8 +191,6 @@ function createOptionsStore<
               const store = pinia._s.get(id)!
 
               // allow cross using stores
-              /* istanbul ignore if */
-              if (isVue2 && !store._r) return
 
               // @ts-expect-error
               // return getters![name].call(context, context)
@@ -256,7 +241,7 @@ function createSetupStore<
   // watcher options for $subscribe
   const $subscribeOptions: WatchOptions = { deep: true }
   /* istanbul ignore else */
-  if (__DEV__ && !isVue2) {
+  if (__DEV__) {
     $subscribeOptions.onTrigger = (event) => {
       /* istanbul ignore else */
       if (isListening) {
@@ -288,11 +273,7 @@ function createSetupStore<
   // by the setup
   if (!isOptionsStore && !initialState && (!__DEV__ || !hot)) {
     /* istanbul ignore if */
-    if (isVue2) {
-      set(pinia.state.value, $id, {})
-    } else {
-      pinia.state.value[$id] = {}
-    }
+    pinia.state.value[$id] = {}
   }
 
   const hotState = ref({} as S)
@@ -484,12 +465,6 @@ function createSetupStore<
     $dispose,
   } as _StoreWithState<Id, S, G, A>
 
-  /* istanbul ignore if */
-  if (isVue2) {
-    // start as non ready
-    partialStore._r = false
-  }
-
   const store: Store<Id, S, G, A> = reactive(
     __DEV__ || (__USE_DEVTOOLS__ && IS_CLIENT)
       ? assign(
@@ -523,7 +498,7 @@ function createSetupStore<
     if ((isRef(prop) && !isComputed(prop)) || isReactive(prop)) {
       // mark it as a piece of state to be serialized
       if (__DEV__ && hot) {
-        set(hotState.value, key, toRef(setupStore, key))
+        hotState.value[key] = toRef(setupStore, key)
         // createOptionStore directly sets the state in pinia.state.value so we
         // can just skip that
       } else if (!isOptionsStore) {
@@ -538,12 +513,7 @@ function createSetupStore<
           }
         }
         // transfer the ref to the pinia state to keep everything in sync
-        /* istanbul ignore if */
-        if (isVue2) {
-          set(pinia.state.value[$id], key, prop)
-        } else {
-          pinia.state.value[$id][key] = prop
-        }
+        pinia.state.value[$id][key] = prop
       }
 
       /* istanbul ignore else */
@@ -555,13 +525,8 @@ function createSetupStore<
       const actionValue = __DEV__ && hot ? prop : action(prop as _Method, key)
       // this a hot module replacement store because the hotUpdate method needs
       // to do it with the right context
-      /* istanbul ignore if */
-      if (isVue2) {
-        set(setupStore, key, actionValue)
-      } else {
-        // @ts-expect-error
-        setupStore[key] = actionValue
-      }
+      // @ts-expect-error
+      setupStore[key] = actionValue
 
       /* istanbul ignore else */
       if (__DEV__) {
@@ -591,16 +556,10 @@ function createSetupStore<
 
   // add the state, getters, and action properties
   /* istanbul ignore if */
-  if (isVue2) {
-    Object.keys(setupStore).forEach((key) => {
-      set(store, key, setupStore[key])
-    })
-  } else {
-    assign(store, setupStore)
-    // allows retrieving reactive objects with `storeToRefs()`. Must be called after assigning to the reactive object.
-    // Make `storeToRefs()` work with `reactive()` #799
-    assign(toRaw(store), setupStore)
-  }
+  assign(store, setupStore)
+  // allows retrieving reactive objects with `storeToRefs()`. Must be called after assigning to the reactive object.
+  // Make `storeToRefs()` work with `reactive()` #799
+  assign(toRaw(store), setupStore)
 
   // use this instead of a computed with setter to be able to create it anywhere
   // without linking the computed lifespan to wherever the store is first
@@ -641,13 +600,15 @@ function createSetupStore<
         }
         // patch direct access properties to allow store.stateProperty to work as
         // store.$state.stateProperty
-        set(store, stateKey, toRef(newStore.$state, stateKey))
+        // @ts-expect-error: any type
+        store[stateKey] = toRef(newStore.$state, stateKey)
       })
 
       // remove deleted state properties
       Object.keys(store.$state).forEach((stateKey) => {
         if (!(stateKey in newStore.$state)) {
-          del(store, stateKey)
+          // @ts-expect-error: noop if doesn't exist
+          delete store[stateKey]
         }
       })
 
@@ -663,7 +624,10 @@ function createSetupStore<
       for (const actionName in newStore._hmrPayload.actions) {
         const actionFn: _Method = newStore[actionName]
 
-        set(store, actionName, action(actionFn, actionName))
+        // @ts-expect-error: actionName is a string
+        store[actionName] =
+          //
+          action(actionFn, actionName)
       }
 
       // TODO: does this work in both setup and option store?
@@ -677,20 +641,25 @@ function createSetupStore<
             })
           : getter
 
-        set(store, getterName, getterValue)
+        // @ts-expect-error: getterName is a string
+        store[getterName] =
+          //
+          getterValue
       }
 
       // remove deleted getters
       Object.keys(store._hmrPayload.getters).forEach((key) => {
         if (!(key in newStore._hmrPayload.getters)) {
-          del(store, key)
+          // @ts-expect-error: noop if doesn't exist
+          delete store[key]
         }
       })
 
       // remove old actions
       Object.keys(store._hmrPayload.actions).forEach((key) => {
         if (!(key in newStore._hmrPayload.actions)) {
-          del(store, key)
+          // @ts-expect-error: noop if doesn't exist
+          delete store[key]
         }
       })
 
@@ -719,12 +688,6 @@ function createSetupStore<
         )
       }
     )
-  }
-
-  /* istanbul ignore if */
-  if (isVue2) {
-    // mark the store as ready before plugins
-    store._r = true
   }
 
   // apply all plugins
@@ -840,21 +803,6 @@ export function defineStore<
 /**
  * Creates a `useStore` function that retrieves the store instance
  *
- * @param options - options to define the store
- *
- * @deprecated use `defineStore(id, options)` instead
- */
-export function defineStore<
-  Id extends string,
-  S extends StateTree = {},
-  G extends _GettersTree<S> = {},
-  // cannot extends ActionsTree because we loose the typings
-  A /* extends ActionsTree */ = {},
->(options: DefineStoreOptions<Id, S, G, A>): StoreDefinition<Id, S, G, A>
-
-/**
- * Creates a `useStore` function that retrieves the store instance
- *
  * @param id - id of the store (must be unique)
  * @param storeSetup - function that defines the store
  * @param options - extra options
@@ -878,11 +826,10 @@ export function defineStore<Id extends string, SS>(
 /*! #__NO_SIDE_EFFECTS__ */
 export function defineStore(
   // TODO: add proper types from above
-  idOrOptions: any,
+  id: any,
   setup?: any,
   setupOptions?: any
 ): StoreDefinition {
-  let id: string
   let options:
     | DefineStoreOptions<
         string,
@@ -898,20 +845,8 @@ export function defineStore(
       >
 
   const isSetupStore = typeof setup === 'function'
-  if (typeof idOrOptions === 'string') {
-    id = idOrOptions
-    // the option store setup will contain the actual options in this case
-    options = isSetupStore ? setupOptions : setup
-  } else {
-    options = idOrOptions
-    id = idOrOptions.id
-
-    if (__DEV__ && typeof id !== 'string') {
-      throw new Error(
-        `[🍍]: "defineStore()" must be passed a store id as its first argument.`
-      )
-    }
-  }
+  // the option store setup will contain the actual options in this case
+  options = isSetupStore ? setupOptions : setup
 
   function useStore(pinia?: Pinia | null, hot?: StoreGeneric): StoreGeneric {
     const hasContext = hasInjectionContext()

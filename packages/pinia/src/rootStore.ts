@@ -5,7 +5,7 @@ import {
   hasInjectionContext,
   InjectionKey,
   Ref,
-} from 'vue-demi'
+} from 'vue'
 import {
   StateTree,
   PiniaCustomProperties,
@@ -147,9 +147,3 @@ export interface PiniaPlugin {
     context: PiniaPluginContext
   ): Partial<PiniaCustomProperties & PiniaCustomStateProperties> | void
 }
-
-/**
- * Plugin to extend every store.
- * @deprecated use PiniaPlugin instead
- */
-export type PiniaStorePlugin = PiniaPlugin

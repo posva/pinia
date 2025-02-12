@@ -23,7 +23,7 @@
 - 📦 Extremely light
 - ⛰️ Nuxt Module
 
-Pinia works with both Vue 2 and Vue 3.
+The latest version of pinia works with Vue 3. See the branch [v2](https://github.com/vuejs/pinia/tree/v2) for a version that works with Vue 2.
 
 Pinia is the most similar English pronunciation of the word _pineapple_ in Spanish: _piña_. A pineapple is in reality a group of individual flowers that join together to create a multiple fruit. Similar to stores, each one is born individually, but they are all connected at the end. It's also a delicious tropical fruit indigenous to South America.
 
@@ -111,12 +111,6 @@ A few notes about the project and possible questions:
 npm install pinia
 ```
 
-If you are using Vue <2.7, make sure to install latest `@vue/composition-api`:
-
-```bash
-npm install pinia @vue/composition-api
-```
-
 ## Usage
 
 ### Install the plugin
@@ -134,23 +128,6 @@ const app = createApp(App)
 
 app.use(pinia)
 app.mount('#app')
-```
-
-```js
-// Vue 2
-import { createPinia, PiniaVuePlugin } from 'pinia'
-
-Vue.use(PiniaVuePlugin)
-const pinia = createPinia()
-
-new Vue({
-  el: '#app',
-  // other options...
-  // ...
-  // note the same `pinia` instance can be used across multiple Vue apps on
-  // the same page
-  pinia,
-})
 ```
 
 For more detailed instructions, including [Nuxt configuration](https://pinia.vuejs.org/ssr/nuxt.html#nuxt-js), check the [Documentation](https://pinia.vuejs.org).
