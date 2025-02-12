@@ -125,14 +125,7 @@ function createConfig(buildName, output, plugins = []) {
   // during a single build.
   hasTSChecked = true
 
-  const external = ['vue']
-  if (
-    !isGlobalBuild &&
-    // pinia.prod.cjs should not require `@vue/devtools-api` (like Vue)
-    !(isProductionBuild && isNodeBuild)
-  ) {
-    external.push('@vue/devtools-api')
-  }
+  const external = ['vue', '@vue/devtools-api']
 
   const nodePlugins = [nodeResolve(), commonjs()]
 
