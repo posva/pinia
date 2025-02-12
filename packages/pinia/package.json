@@ -72,7 +72,7 @@
     "@vue/test-utils": "^2.4.6"
   },
   "dependencies": {
-    "@vue/devtools-api": "^7.7.1"
+    "@vue/devtools-api": "^7.7.2"
   },
   "peerDependencies": {
     "typescript": ">=4.4.4",
