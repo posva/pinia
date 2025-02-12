@@ -54,7 +54,6 @@ export default defineConfig({
         '**/src/index.ts',
         '**/*.test-d.ts',
         'packages/pinia/src/devtools',
-        'packages/pinia/src/vue2-plugin.ts',
         'packages/pinia/src/hmr.ts',
       ],
     },
