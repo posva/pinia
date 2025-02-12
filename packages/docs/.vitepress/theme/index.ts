@@ -12,6 +12,7 @@ import VueSchoolLink from './components/VueSchoolLink.vue'
 import VueMasteryLogoLink from './components/VueMasteryLogoLink.vue'
 import MasteringPiniaLink from './components/MasteringPiniaLink.vue'
 import status from '../translation-status.json'
+import MadVueBanner from './components/MadVueBanner.vue'
 
 const i18nLabels = {
   zh: '该翻译已同步到了 ${date} 的版本，其对应的 commit hash 是 <code>${hash}</code>。',
@@ -24,7 +25,7 @@ const theme: Theme = {
       'home-hero-image': () => h('div', { class: 'image-src' }, h(PiniaLogo)),
       // 'home-features-after': () => h(HomeSponsors),
       'aside-ads-before': () => h(AsideSponsors),
-      // 'layout-top': () => h(VuejsdeConfBanner),
+      'layout-top': () => h(MadVueBanner),
       'doc-before': () => h(TranslationStatus, { status, i18nLabels }),
     })
   },
