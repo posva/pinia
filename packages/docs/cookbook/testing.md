@@ -109,8 +109,6 @@ expect(store.someAction).toHaveBeenCalledTimes(1)
 expect(store.someAction).toHaveBeenLastCalledWith()
 ```
 
-Please note that if you are using Vue 2, `@vue/test-utils` requires a [slightly different configuration](#Unit-test-components-Vue-2-).
-
 ### Initial State
 
 You can set the initial state of **all of your stores** when creating a testing pinia by passing an `initialState` object. This object will be used by the testing pinia to _patch_ stores when they are created. Let's say you want to initialize the state of this store:
@@ -291,23 +289,3 @@ const wrapper = mount(Counter, {
 ## E2E tests
 
 When it comes to Pinia, you don't need to change anything for E2E tests, that's the whole point of these tests! You could maybe test HTTP requests, but that's way beyond the scope of this guide 😄.
-
-## Unit test components (Vue 2)
-
-When using [Vue Test Utils 1](https://v1.test-utils.vuejs.org/), install Pinia on a `localVue`:
-
-```js
-import { PiniaVuePlugin } from 'pinia'
-import { createLocalVue, mount } from '@vue/test-utils'
-import { createTestingPinia } from '@pinia/testing'
-
-const localVue = createLocalVue()
-localVue.use(PiniaVuePlugin)
-
-const wrapper = mount(Counter, {
-  localVue,
-  pinia: createTestingPinia(),
-})
-
-const store = useSomeStore() // uses the testing pinia!
-```

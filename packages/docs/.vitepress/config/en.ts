@@ -49,6 +49,10 @@ export const enConfig: LocaleSpecificConfig<DefaultTheme.Config> = {
           },
         ],
       },
+      {
+        text: 'v3.x',
+        items: [{ text: 'v2.x', link: 'https://v2.pinia.vuejs.org' }],
+      },
     ],
 
     sidebar: {
@@ -131,6 +135,10 @@ export const enConfig: LocaleSpecificConfig<DefaultTheme.Config> = {
             {
               text: 'VSCode Snippets',
               link: '/cookbook/vscode-snippets.html',
+            },
+            {
+              text: 'Migration from v2 to v3',
+              link: '/cookbook/migration-v2-v3.html',
             },
             {
               text: 'Migration from v0/v1 to v2',

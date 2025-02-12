@@ -94,7 +94,6 @@ function createConfig(buildName, output, plugins = []) {
   output.banner = banner
   output.externalLiveBindings = false
   output.globals = {
-    'vue-demi': 'VueDemi',
     vue: 'Vue',
   }
 
@@ -126,7 +125,7 @@ function createConfig(buildName, output, plugins = []) {
   // during a single build.
   hasTSChecked = true
 
-  const external = ['vue-demi', 'vue']
+  const external = ['vue']
   if (
     !isGlobalBuild &&
     // pinia.prod.cjs should not require `@vue/devtools-api` (like Vue)

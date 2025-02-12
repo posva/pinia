@@ -1,3 +1,7 @@
+## [0.10.0](https://github.com/vuejs/pinia/compare/@pinia/nuxt@0.9.0...@pinia/nuxt@0.10.0) (2025-02-11)
+
+This version requires Vue 3.0 and Pinia 3.0. See the [migration guide](https://pinia.vuejs.org/cookbook/migration-v2-v3.html) for more information.
+
 ## [0.9.0](https://github.com/vuejs/pinia/compare/@pinia/nuxt@0.8.0...@pinia/nuxt@0.9.0) (2024-12-04)
 
 This version requires at least Vue 2.7. On January 2025, Pinia 3.0 and `@pinia/nuxt` 1.0 will drop support for Vue 2 (which already reached EOL last year). If you need support or help migrating, you can [book help with Eduardo (@posva)](https://cal.com/posva/consultancy).

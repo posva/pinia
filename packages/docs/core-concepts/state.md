@@ -31,7 +31,9 @@ export const useStore = defineStore('storeId', {
 ```
 
 :::tip
-If you are using Vue 2, the data you create in `state` follows the same rules as the `data` in a Vue instance, i.e. the state object must be plain and you need to call `Vue.set()` when **adding new** properties to it. **See also: [Vue#data](https://v2.vuejs.org/v2/api/#data)**.
+
+In order for Vue to properly detect state, you must declare every state piece in `data`, even if its initial value is `undefined`.
+
 :::
 
 ## TypeScript
@@ -215,7 +217,7 @@ store.$patch((state) => {
 
 <!-- TODO: disable this with `strictMode`, `{ noDirectPatch: true }` -->
 
-The main difference here is that `$patch()` allows you to group multiple changes into one single entry in the devtools. Note that **both direct changes to `state` and `$patch()` appear in the devtools** and can be time traveled (not yet in Vue 3).
+The main difference here is that `$patch()` allows you to group multiple changes into one single entry in the devtools. Note that **both direct changes to `state` and `$patch()` are tracked in devtools** and can be time traveled.
 
 ## Replacing the `state`
 

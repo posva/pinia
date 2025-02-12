@@ -46,7 +46,7 @@ Flags:
 // const preId =
 //   args.preId ||
 //   (semver.prerelease(currentVersion) && semver.prerelease(currentVersion)[0])
-const EXPECTED_BRANCH = 'v2'
+const EXPECTED_BRANCH = 'v3'
 // this package will use tags like v1.0.0 while the rest will use the full package name like @pinia/testing@1.0.0
 const MAIN_PKG_NAME = 'pinia'
 // whether the main package is at the root of the mono repo or this is not a mono repo

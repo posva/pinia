@@ -114,7 +114,7 @@ function toggleDark() {
         <Download />
       </button>
       <a
-        href="https://github.com/vuejs/pinia/tree/v2/packages/online-playground"
+        href="https://github.com/vuejs/pinia/tree/v3/packages/online-playground"
         target="_blank"
         title="View on GitHub"
         class="github"

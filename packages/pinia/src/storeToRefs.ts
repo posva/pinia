@@ -3,14 +3,12 @@ import {
   ComputedRef,
   isReactive,
   isRef,
-  isVue2,
   toRaw,
   ToRef,
   toRef,
   ToRefs,
-  toRefs,
   WritableComputedRef,
-} from 'vue-demi'
+} from 'vue'
 import { StoreGetters, StoreState } from './store'
 import type {
   _ActionsTree,
@@ -89,37 +87,30 @@ export type StoreToRefs<SS extends StoreGeneric> =
 export function storeToRefs<SS extends StoreGeneric>(
   store: SS
 ): StoreToRefs<SS> {
-  // See https://github.com/vuejs/pinia/issues/852
-  // It's easier to just use toRefs() even if it includes more stuff
-  if (isVue2) {
-    // @ts-expect-error: toRefs include methods and others
-    return toRefs(store)
-  } else {
-    const rawStore = toRaw(store)
+  const rawStore = toRaw(store)
 
-    const refs = {} as StoreToRefs<SS>
-    for (const key in rawStore) {
-      const value = rawStore[key]
-      // There is no native method to check for a computed
-      // https://github.com/vuejs/core/pull/4165
-      if (value.effect) {
-        // @ts-expect-error: too hard to type correctly
-        refs[key] =
-          // ...
-          computed({
-            get: () => store[key],
-            set(value) {
-              store[key] = value
-            },
-          })
-      } else if (isRef(value) || isReactive(value)) {
-        // @ts-expect-error: the key is state or getter
-        refs[key] =
-          // ---
-          toRef(store, key)
-      }
+  const refs = {} as StoreToRefs<SS>
+  for (const key in rawStore) {
+    const value = rawStore[key]
+    // There is no native method to check for a computed
+    // https://github.com/vuejs/core/pull/4165
+    if (value.effect) {
+      // @ts-expect-error: too hard to type correctly
+      refs[key] =
+        // ...
+        computed({
+          get: () => store[key],
+          set(value) {
+            store[key] = value
+          },
+        })
+    } else if (isRef(value) || isReactive(value)) {
+      // @ts-expect-error: the key is state or getter
+      refs[key] =
+        // ---
+        toRef(store, key)
     }
-
-    return refs
   }
+
+  return refs
 }

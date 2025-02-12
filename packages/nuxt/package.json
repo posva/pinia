@@ -1,6 +1,6 @@
 {
   "name": "@pinia/nuxt",
-  "version": "0.9.0",
+  "version": "0.10.0",
   "description": "Nuxt Module for pinia",
   "keywords": [
     "pinia",
@@ -9,7 +9,7 @@
     "vuex",
     "store"
   ],
-  "homepage": "https://github.com/vuejs/pinia/tree/v2/packages/nuxt#readme",
+  "homepage": "https://github.com/vuejs/pinia/tree/v3/packages/nuxt#readme",
   "bugs": {
     "url": "https://github.com/vuejs/pinia/issues"
   },
@@ -46,19 +46,19 @@
     "changelog": "conventional-changelog -p angular -i CHANGELOG.md -s --commit-path . -l @pinia/nuxt -r 1"
   },
   "dependencies": {
-    "@nuxt/kit": "^3.9.0"
+    "@nuxt/kit": "^3.15.4"
   },
   "peerDependencies": {
     "pinia": "workspace:^"
   },
   "devDependencies": {
     "@nuxt/module-builder": "^0.8.4",
-    "@nuxt/schema": "^3.9.0",
-    "@nuxt/test-utils": "^3.14.4",
-    "nuxt": "^3.14.1592",
+    "@nuxt/schema": "^3.15.4",
+    "@nuxt/test-utils": "^3.15.4",
+    "nuxt": "^3.15.4",
     "pinia": "workspace:^",
-    "typescript": "^5.6.3",
-    "vue-tsc": "^2.1.10"
+    "typescript": "^5.7.3",
+    "vue-tsc": "^2.2.0"
   },
   "publishConfig": {
     "access": "public"

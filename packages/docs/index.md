@@ -34,7 +34,7 @@ features:
   - title: 🔑 Type Safe
     details: Types are inferred, which means stores provide you with autocompletion even in JavaScript!
   - title: ⚙️ Devtools support
-    details: Pinia hooks into Vue devtools to give you an enhanced development experience in both Vue 2 and Vue 3.
+    details: Pinia hooks into Vue devtools to give you an enhanced development experience.
   - title: 🔌 Extensible
     details: React to store changes and actions to extend Pinia with transactions, local storage synchronization, etc.
   - title: 🏗 Modular by design

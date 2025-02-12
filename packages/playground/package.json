@@ -1,6 +1,7 @@
 {
   "name": "@pinia/playground",
   "version": "0.0.0",
+  "type": "module",
   "private": true,
   "scripts": {
     "play": "vite",
@@ -9,13 +10,14 @@
   },
   "devDependencies": {
     "@vitejs/plugin-vue": "^5.2.1",
-    "vite": "^6.0.7"
+    "vite": "^6.0.11",
+    "vite-plugin-vue-devtools": "^7.7.1"
   },
   "dependencies": {
-    "@vueuse/core": "^12.4.0",
+    "@vueuse/core": "^12.5.0",
     "mande": "^2.0.9",
     "pinia": "workspace:*",
-    "swrv": "^1.0.4",
+    "swrv": "^1.1.0",
     "vue-promised": "^2.2.0",
     "vue-router": "^4.5.0"
   }

@@ -1,5 +1,5 @@
 import { Pinia, PiniaPlugin, setActivePinia, piniaSymbol } from './rootStore'
-import { ref, App, markRaw, effectScope, isVue2, Ref } from 'vue-demi'
+import { ref, App, markRaw, effectScope, Ref } from 'vue'
 import { registerPiniaDevtools, devtoolsPlugin } from './devtools'
 import { IS_CLIENT } from './env'
 import { StateTree, StoreGeneric } from './types'
@@ -24,21 +24,19 @@ export function createPinia(): Pinia {
       // this allows calling useStore() outside of a component setup after
       // installing pinia's plugin
       setActivePinia(pinia)
-      if (!isVue2) {
-        pinia._a = app
-        app.provide(piniaSymbol, pinia)
-        app.config.globalProperties.$pinia = pinia
-        /* istanbul ignore else */
-        if (__USE_DEVTOOLS__ && IS_CLIENT) {
-          registerPiniaDevtools(app, pinia)
-        }
-        toBeInstalled.forEach((plugin) => _p.push(plugin))
-        toBeInstalled = []
+      pinia._a = app
+      app.provide(piniaSymbol, pinia)
+      app.config.globalProperties.$pinia = pinia
+      /* istanbul ignore else */
+      if (__USE_DEVTOOLS__ && IS_CLIENT) {
+        registerPiniaDevtools(app, pinia)
       }
+      toBeInstalled.forEach((plugin) => _p.push(plugin))
+      toBeInstalled = []
     },
 
     use(plugin) {
-      if (!this._a && !isVue2) {
+      if (!this._a) {
         toBeInstalled.push(plugin)
       } else {
         _p.push(plugin)

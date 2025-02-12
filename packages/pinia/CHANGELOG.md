@@ -1,3 +1,22 @@
+## [3.0.0](https://github.com/vuejs/pinia/compare/pinia@2.2.6...pinia@3.0.0) (2025-02-11)
+
+This version of Pinia has no new features, it drops support for Vue 2 and other deprecated APIs. It should be an straightforward upgrade for most users! 🎉
+
+See the [migration guide](https://pinia.vuejs.org/cookbook/migration-v2-v3.html) for help.
+
+### ⚠ BREAKING CHANGES
+
+- We now use the native `Awaited` introduced in TS 4.5, so you need at least TS 4.5 to use Pinia 3.0. That being said, it's always better to have an up to date version of TS.
+- `PiniaStorePlugin` is now removed. Use `PiniaPlugin` instead.
+- `defineStore({ id: 'id' })` is now removed. Use `defineStore('id')` instead
+- Pinia is now published as a `type: module` package but it still provides CJS versions dist files
+
+### Code Refactoring
+
+- remove deprecated aliases ([87c6182](https://github.com/vuejs/pinia/commit/87c6182c4bf61e1f96a4877eb884fd59cf824e1f))
+- remove internal type `_Awaited` ([ce48ec4](https://github.com/vuejs/pinia/commit/ce48ec46e0d7626eeefa0ee9c4e8c6b65fce31e1))
+- remove support for `id` as a property in `defineStore` ([24b2b89](https://github.com/vuejs/pinia/commit/24b2b89c7be4ffda8b6fbc35155757f5780971d8))
+
 ### [2.3.1](https://github.com/vuejs/pinia/compare/pinia@2.2.6...pinia@2.3.1) (2025-01-20)
 
 ### Bug Fixes

@@ -1,4 +1,4 @@
-import { isRef, isReactive, isVue2, set } from 'vue-demi'
+import { isRef, isReactive } from 'vue'
 import { Pinia } from './rootStore'
 import {
   isPlainObject,
@@ -53,11 +53,7 @@ export function patchObject(
     } else {
       // objects are either a bit more complex (e.g. refs) or primitives, so we
       // just set the whole thing
-      if (isVue2) {
-        set(newState, key, subPatch)
-      } else {
-        newState[key] = subPatch
-      }
+      newState[key] = subPatch
     }
   }
 

@@ -33,26 +33,6 @@ app.use(pinia)
 app.mount('#app')
 ```
 
-If you are using Vue 2, you also need to install a plugin and inject the created `pinia` at the root of the app:
-
-```js {1,3-4,12}
-import { createPinia, PiniaVuePlugin } from 'pinia'
-
-Vue.use(PiniaVuePlugin)
-const pinia = createPinia()
-
-new Vue({
-  el: '#app',
-  // other options...
-  // ...
-  // note the same `pinia` instance can be used across multiple Vue apps on
-  // the same page
-  pinia,
-})
-```
-
-This will also add devtools support. In Vue 3, some features like time traveling and editing are still not supported because vue-devtools doesn't expose the necessary APIs yet but the devtools have way more features and the developer experience as a whole is far superior.
-
 ## What is a Store?
 
 A Store (like Pinia) is an entity holding state and business logic that isn't bound to your Component tree. In other words, **it hosts global state**. It's a bit like a component that is always there and that everybody can read off and write to. It has **three concepts**, the [state](./core-concepts/state.md), [getters](./core-concepts/getters.md) and [actions](./core-concepts/actions.md) and it's safe to assume these concepts are the equivalent of `data`, `computed` and `methods` in components.
